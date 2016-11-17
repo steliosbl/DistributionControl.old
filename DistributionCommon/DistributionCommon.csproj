@@ -53,6 +53,7 @@
     <Compile Include="Requests\DistributionCommon.Requests.Reset.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Sleep.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Status.cs" />
+    <Compile Include="Requests\DistributionCommon.Requests.Wake.cs" />
     <Compile Include="Schematic\DistributionSchematic.Node.cs" />
     <Compile Include="Schematic\DistributionSchematic.Schematic.cs" />
   </ItemGroup>
