@@ -10,9 +10,9 @@
         private LogHandler log;
         private DataHandler handleData;
 
-        public Listener(IPEndPoint endPoint, DataHandler dataHandler, LogHandler logHandler)
+        public Listener(int port, DataHandler dataHandler, LogHandler logHandler)
         {
-            this.endPoint = endPoint;
+            this.endPoint = new IPEndPoint(IPAddress.Any, port);
             this.log = logHandler;
             this.handleData = dataHandler;
         }
@@ -41,7 +41,7 @@
 
         private void HandleClient(TcpClient client)
         {
-            byte[] bytes = new byte[256];
+            byte[] bytes = new byte[DistributionCommon.Constants.DistributionNode_Listener_StreamSize];
             string data = null;
             var stream = client.GetStream();
 
