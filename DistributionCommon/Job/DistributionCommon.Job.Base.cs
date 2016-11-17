@@ -7,8 +7,8 @@
             this.Blueprint = blueprint;
         }
 
-        public abstract void Work();
-
         public Blueprint Blueprint { get; private set; }
+
+        public abstract void Work();
     }
 }
