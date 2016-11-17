@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DistributionCommon.Constants.cs" />
+    <Compile Include="DistributionCommon.DependencyManager.cs" />
     <Compile Include="DistributionCommon.Logger.cs" />
     <Compile Include="Job\DistributionCommon.Job.Blueprint.cs" />
     <Compile Include="Job\DistributionCommon.Job.Custom.cs" />
