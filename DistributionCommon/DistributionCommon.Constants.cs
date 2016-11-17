@@ -2,6 +2,12 @@
 {
     public sealed class Constants
     {
-        public const int DistributionNode_Listener_StreamSize = 256;
+        public sealed class DistributionNode
+        {
+            public sealed class Listener
+            {
+                public const int StreamSize = 256;
+            }
+        }
     }
 }
