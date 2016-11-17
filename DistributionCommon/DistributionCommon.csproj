@@ -58,6 +58,7 @@
     <Compile Include="Responses\DistributionCommon.Responses.Base.cs" />
     <Compile Include="Responses\DistributionCommon.Responses.Construct.cs" />
     <Compile Include="Responses\DistributionCommon.Responses.Remove.cs" />
+    <Compile Include="Responses\DistributionCommon.Responses.Reset.cs" />
     <Compile Include="Schematic\DistributionSchematic.Node.cs" />
     <Compile Include="Schematic\DistributionSchematic.Schematic.cs" />
   </ItemGroup>
