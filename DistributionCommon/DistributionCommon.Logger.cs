@@ -17,7 +17,7 @@
 
         public void Log(string msg, int severity = 0)
         {
-            var tags = new string[] { "[INFO] ", "[WARN] ", "[SEVERE] ", "[CRITICAL] " };
+            var tags = new string[] { "[INFO]", "[WARN]", "[SEVERE]", "[CRITICAL]" };
 
             string message = "[" + DateTime.Now.ToString() + "] " + tags[severity] + " " + msg;
 
