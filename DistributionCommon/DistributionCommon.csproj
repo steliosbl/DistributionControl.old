@@ -54,6 +54,7 @@
     <Compile Include="Requests\DistributionCommon.Requests.Sleep.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Status.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Wake.cs" />
+    <Compile Include="Responses\DistributionCommon.Requests.Sleep.cs" />
     <Compile Include="Responses\DistributionCommon.Responses.Assign.cs" />
     <Compile Include="Responses\DistributionCommon.Responses.Base.cs" />
     <Compile Include="Responses\DistributionCommon.Responses.Construct.cs" />
