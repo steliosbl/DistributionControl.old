@@ -1,12 +1,12 @@
 ﻿namespace DistributedWorker
 {
-    public class Base
+    public class Worker
     {
         public readonly int ID;
         private DistributionCommon.Job.Base job;
         private System.Threading.Thread workThread;
 
-        public Base(DistributionCommon.Job.Blueprint blueprint)
+        public Worker(DistributionCommon.Job.Blueprint blueprint)
         {
             this.job = new DistributionCommon.Job.Custom(blueprint);
         }
