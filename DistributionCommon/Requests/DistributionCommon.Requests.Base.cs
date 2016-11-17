@@ -2,7 +2,7 @@
 {
     using System;
 
-    public sealed class Base
+    public class Base
     {
         public Base()
         {
