@@ -6,7 +6,7 @@
     using System.Threading;
     using Newtonsoft.Json;
 
-    public sealed class Node
+    internal sealed class Node
     {
         private readonly Config config;
         private Listener listener;
@@ -25,18 +25,30 @@
 
             this.config = DistributionCommon.JSONFileReader.GetObject<Config>(DistributionCommon.Constants.DistributionNode.Node.ConfigFilename);
 
-            if (this.config != null)
+            if (this.config != default(Config))
             {
                 this.logger = new DistributionCommon.Logger(this.config.LogFilename, this.config.Verbose);
                 this.logger.Log("Starting up node...");
                 this.constructed = false;
                 this.workers = new Dictionary<int, DistributedWorker.Worker>();
+                try
+                {
+                    this.logger.Log("Initializing listener...");
+                    this.listener = new Listener(this.config.Port, this.RequestSifter, this.logger.Log);
+                    this.listener.StartListener();
 
-                this.logger.Log("Initializing listener...");
-                this.listener = new Listener(this.config.Port, this.RequestSifter, this.logger.Log);
-                this.listener.StartListener();
+                    this.logger.Log("Startup complete");
+                }
+                catch (Exception e)
+                {
+                    if (!this.config.LiveErrors)
+                    {
+                        this.logger.Log(e.StackTrace, 3);
+                        Environment.Exit(1);
+                    }
 
-                this.logger.Log("Startup complete");
+                    throw;
+                }
             }
             else
             {

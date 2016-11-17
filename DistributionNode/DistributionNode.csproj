@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DistributionNode</RootNamespace>
-    <AssemblyName>DistributionNode</AssemblyName>
+    <AssemblyName>is</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>DistributionNode.Execute</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -48,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DistributionNode.Config.cs" />
+    <Compile Include="DistributionNode.Execute.cs" />
     <Compile Include="DistributionNode.Listener.cs" />
     <Compile Include="DistributionNode.Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

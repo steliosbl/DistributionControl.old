@@ -13,7 +13,7 @@
             }
             catch (IOException)
             {
-                return null;
+                return default(T);
             }
         }
     }
