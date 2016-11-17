@@ -3,6 +3,7 @@
     using System;
     using System.Net;
     using System.Net.Sockets;
+    using System.Threading.Tasks;
 
     internal sealed class Listener
     {
@@ -21,7 +22,7 @@
 
         public delegate string DataHandler(string data);
 
-        public async void StartListener()
+        public async Task<int> StartListener()
         {
             var listener = new TcpListener(this.endPoint);
             listener.Start();

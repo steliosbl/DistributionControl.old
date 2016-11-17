@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
     using Newtonsoft.Json;
 
     internal sealed class Node
@@ -35,9 +36,9 @@
                 {
                     this.logger.Log("Initializing listener...");
                     this.listener = new Listener(this.config.Port, this.RequestSifter, this.logger.Log);
-                    this.listener.StartListener();
-
                     this.logger.Log("Startup complete");
+                    var task = Task.Run(async () => { await this.listener.StartListener(); });
+                    task.Wait();
                 }
                 catch (Exception e)
                 {
@@ -48,10 +49,6 @@
                     }
 
                     throw;
-                }
-
-                while (true)
-                {
                 }
             }
             else
