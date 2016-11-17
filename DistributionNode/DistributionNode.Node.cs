@@ -49,6 +49,10 @@
 
                     throw;
                 }
+
+                while (true)
+                {
+                }
             }
             else
             {
