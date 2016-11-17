@@ -11,6 +11,14 @@
             this.job = new DistributionCommon.Job.Custom(blueprint);
         }
 
+        public bool Awake
+        {
+            get
+            {
+                return this.workThread != null;
+            }
+        }
+
         public bool Wake()
         {
             if (this.workThread == null)

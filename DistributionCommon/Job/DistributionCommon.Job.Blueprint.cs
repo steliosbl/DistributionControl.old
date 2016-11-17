@@ -4,7 +4,7 @@
     {
         public Blueprint(int id)
         {
-            this.ID = ID;
+            this.ID = id;
         }
 
         public int ID { get; private set; }
