@@ -46,10 +46,12 @@
   <ItemGroup>
     <Compile Include="DistributionCommon.Constants.cs" />
     <Compile Include="DistributionCommon.DependencyManager.cs" />
+    <Compile Include="DistributionCommon.DistributionControlException.cs" />
     <Compile Include="DistributionCommon.Logger.cs" />
     <Compile Include="Job\DistributionCommon.Job.Blueprint.cs" />
     <Compile Include="Job\DistributionCommon.Job.Custom.cs" />
     <Compile Include="Job\DistributionCommon.Job.Base.cs" />
+    <Compile Include="DistributionCommon.JSONFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Assign.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Base.cs" />

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="DistributionNode.Config.cs" />
     <Compile Include="DistributionNode.Listener.cs" />
+    <Compile Include="DistributionNode.Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +57,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DistributedWorker\DistributedWorker.csproj">
+      <Project>{c5340639-d6e8-445a-b762-fce41e354ac7}</Project>
+      <Name>DistributedWorker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DistributionCommon\DistributionCommon.csproj">
       <Project>{139e7c6a-fac3-4164-ab2b-0383c87a14a0}</Project>
       <Name>DistributionCommon</Name>
