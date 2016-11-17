@@ -49,6 +49,7 @@
     <Compile Include="Requests\DistributionCommon.Requests.Assign.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Base.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Construct.cs" />
+    <Compile Include="Requests\DistributionCommon.Requests.Remove.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Reset.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Status.cs" />
     <Compile Include="Schematic\DistributionSchematic.Node.cs" />
