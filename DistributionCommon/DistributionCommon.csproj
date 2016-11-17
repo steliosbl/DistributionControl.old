@@ -54,15 +54,16 @@
     <Compile Include="Requests\DistributionCommon.Requests.Sleep.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Status.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Wake.cs" />
+    <Compile Include="Responses\DistributionCommon.Responses.Assign.cs" />
+    <Compile Include="Responses\DistributionCommon.Responses.Base.cs" />
+    <Compile Include="Responses\DistributionCommon.Responses.Construct.cs" />
     <Compile Include="Schematic\DistributionSchematic.Node.cs" />
     <Compile Include="Schematic\DistributionSchematic.Schematic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Responses\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
