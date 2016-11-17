@@ -58,10 +58,6 @@
       <Project>{139e7c6a-fac3-4164-ab2b-0383c87a14a0}</Project>
       <Name>DistributionCommon</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DistributionSchematic\DistributionSchematic.csproj">
-      <Project>{b4124131-fc61-4986-8f72-ea9f049ebd54}</Project>
-      <Name>DistributionSchematic</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

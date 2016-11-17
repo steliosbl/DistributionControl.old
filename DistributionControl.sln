@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributionController", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributionNode", "DistributionNode\DistributionNode.csproj", "{DD5C0BEC-15ED-4E47-B7D1-8A76BEB3EF7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributionSchematic", "DistributionSchematic\DistributionSchematic.csproj", "{B4124131-FC61-4986-8F72-EA9F049EBD54}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedWorker", "DistributedWorker\DistributedWorker.csproj", "{C5340639-D6E8-445A-B762-FCE41E354AC7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributionCommon", "DistributionCommon\DistributionCommon.csproj", "{139E7C6A-FAC3-4164-AB2B-0383C87A14A0}"
@@ -27,10 +25,6 @@ Global
 		{DD5C0BEC-15ED-4E47-B7D1-8A76BEB3EF7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD5C0BEC-15ED-4E47-B7D1-8A76BEB3EF7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD5C0BEC-15ED-4E47-B7D1-8A76BEB3EF7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4124131-FC61-4986-8F72-EA9F049EBD54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4124131-FC61-4986-8F72-EA9F049EBD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4124131-FC61-4986-8F72-EA9F049EBD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4124131-FC61-4986-8F72-EA9F049EBD54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5340639-D6E8-445A-B762-FCE41E354AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5340639-D6E8-445A-B762-FCE41E354AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5340639-D6E8-445A-B762-FCE41E354AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU

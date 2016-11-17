@@ -47,6 +47,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Base.cs" />
     <Compile Include="Requests\DistributionCommon.Requests.Construct.cs" />
+    <Compile Include="Schematic\DistributionSchematic.Node.cs" />
+    <Compile Include="Schematic\DistributionSchematic.Schematic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
