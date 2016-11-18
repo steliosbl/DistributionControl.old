@@ -5,15 +5,15 @@
     using System.Net.Sockets;
     using System.Threading.Tasks;
 
-    internal sealed class Listener
+    internal sealed class NetListener
     {
-        private IPEndPoint endPoint;
+        private IPEndPoint localEP;
         private LogHandler log;
         private DataHandler handleData;
 
-        public Listener(int port, DataHandler dataHandler, LogHandler logHandler)
+        public NetListener(int port, DataHandler dataHandler, LogHandler logHandler)
         {
-            this.endPoint = new IPEndPoint(IPAddress.Any, port);
+            this.localEP = new IPEndPoint(IPAddress.Any, port);
             this.log = logHandler;
             this.handleData = dataHandler;
         }
@@ -24,7 +24,7 @@
 
         public async Task<int> StartListener()
         {
-            var listener = new TcpListener(this.endPoint);
+            var listener = new TcpListener(this.localEP);
             listener.Start();
             while (true)
             {
@@ -42,7 +42,7 @@
 
         private void HandleClient(TcpClient client)
         {
-            byte[] bytes = new byte[DistributionCommon.Constants.DistributionNode.Listener.StreamSize];
+            byte[] bytes = new byte[DistributionCommon.Constants.DistributionNode.NetListener.StreamSize];
             string data = null;
             var stream = client.GetStream();
 

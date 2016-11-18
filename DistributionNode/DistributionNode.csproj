@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="DistributionNode.Config.cs" />
     <Compile Include="DistributionNode.Execute.cs" />
-    <Compile Include="DistributionNode.Listener.cs" />
+    <Compile Include="DistributionNode.NetListener.cs" />
     <Compile Include="DistributionNode.Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

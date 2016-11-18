@@ -4,7 +4,7 @@
     {
         public sealed class DistributionNode
         {
-            public sealed class Listener
+            public sealed class NetListener
             {
                 public const int StreamSize = 256;
             }
@@ -14,6 +14,11 @@
                 public const string ConfigFilename = "DistributionNode.cfg";
                 public const string InvalidRequestResponse = "NULL";
             }
+        }
+
+        public sealed class DistributionController
+        {
+
         }
     }
 }

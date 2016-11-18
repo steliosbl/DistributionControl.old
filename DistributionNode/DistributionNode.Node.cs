@@ -10,7 +10,7 @@
     internal sealed class Node
     {
         private readonly Config config;
-        private Listener listener;
+        private NetListener listener;
         private DistributionCommon.Schematic.Node schematic;
         private Dictionary<int, DistributedWorker.Worker> workers;
         private DistributionCommon.Logger logger;
@@ -35,7 +35,7 @@
                 try
                 {
                     this.logger.Log("Initializing listener...");
-                    this.listener = new Listener(this.config.Port, this.RequestSifter, this.logger.Log);
+                    this.listener = new NetListener(this.config.Port, this.RequestSifter, this.logger.Log);
                     this.logger.Log("Startup complete");
                     var task = Task.Run(async () => { await this.listener.StartListener(); });
                     task.Wait();
