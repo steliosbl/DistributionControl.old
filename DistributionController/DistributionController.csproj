@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DistributionController.Config.cs" />
     <Compile Include="DistributionController.Execute.cs" />
     <Compile Include="DistributionController.NetClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
