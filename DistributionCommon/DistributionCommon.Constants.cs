@@ -18,7 +18,10 @@
 
         public sealed class DistributionController
         {
-
+            public sealed class NetClient
+            {
+                public const int StreamSize = 256;
+            }
         }
     }
 }
