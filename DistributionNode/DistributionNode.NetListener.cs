@@ -42,7 +42,7 @@
 
         private void HandleClient(TcpClient client)
         {
-            byte[] bytes = new byte[DistributionCommon.Constants.DistributionNode.NetListener.StreamSize];
+            byte[] bytes = new byte[DistributionCommon.Constants.Communication.StreamSize];
             string data = null;
             var stream = client.GetStream();
 

@@ -72,7 +72,7 @@
             catch (JsonException)
             {
                 this.logger.Log("Received invalid request", 1);
-                return DistributionCommon.Constants.DistributionNode.Node.InvalidRequestResponse;
+                return DistributionCommon.Constants.Communication.InvalidRequestResponse;
             }
         }
 

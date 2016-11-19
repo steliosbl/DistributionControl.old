@@ -28,7 +28,7 @@
                 var data = System.Text.Encoding.ASCII.GetBytes(message);
                 stream.Write(data, 0, data.Length);
 
-                data = new byte[DistributionCommon.Constants.DistributionController.NetClient.StreamSize];
+                data = new byte[DistributionCommon.Constants.Communication.StreamSize];
                 int bytes = stream.Read(data, 0, data.Length);
                 string response = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
 
