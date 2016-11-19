@@ -14,7 +14,7 @@
             this.EndPointUnreachable += unreachableHandler;
         }
 
-        public delegate void EndPointUnreachableHandler(object sender, EventArgs e);
+        public delegate void EndPointUnreachableHandler();
 
         public event EndPointUnreachableHandler EndPointUnreachable;
 
@@ -39,16 +39,16 @@
             }
             catch (SocketException)
             {
-                this.OnEndPointUnreachable(EventArgs.Empty);
+                this.OnEndPointUnreachable();
                 return null;
             }
         }
 
-        private void OnEndPointUnreachable(EventArgs e)
+        private void OnEndPointUnreachable()
         {
             if (this.EndPointUnreachable != null)
             {
-                this.EndPointUnreachable(this, e);
+                this.EndPointUnreachable();
             }
         }
     }
