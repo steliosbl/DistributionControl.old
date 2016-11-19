@@ -6,15 +6,15 @@
     {
         public Base()
         {
-            this.RequestType = this.GetType();
+            this.ResponseType = this.GetType();
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        public Base(Type requestType)
+        public Base(Type responseType)
         {
-            this.RequestType = requestType;
+            this.ResponseType = responseType;
         }
 
-        public Type RequestType { get; private set; }
+        public Type ResponseType { get; private set; }
     }
 }
