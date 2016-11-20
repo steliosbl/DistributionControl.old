@@ -11,8 +11,9 @@
         public readonly DistributionCommon.Schematic.Node Schematic;
         private NetClient client;
         private Thread watchdog;
+        private System.Timers.Timer timeoutTimer;
 
-        public Node(DistributionCommon.Schematic.Node schematic, LostNodeHandler lostHandler, RecoveredNodeHandler recoveredHandler, int pingDelay)
+        public Node(DistributionCommon.Schematic.Node schematic, LostNodeHandler lostHandler, RecoveredNodeHandler recoveredHandler, TimeoutHandler timeoutHandler, int pingDelay)
         {
             this.Schematic = schematic;
             this.Reachable = false;
@@ -38,15 +39,20 @@
 
             this.LostNode += lostHandler;
             this.RecoveredNode = recoveredHandler;
+            this.Timeout += timeoutHandler;
         }
 
-        public delegate void LostNodeHandler();
+        public delegate void LostNodeHandler(object sender, EventArgs e);
 
-        public delegate void RecoveredNodeHandler();
+        public delegate void RecoveredNodeHandler(object sender, EventArgs e);
+
+        public delegate void TimeoutHandler(object sender, EventArgs e);
 
         public event LostNodeHandler LostNode;
         
         public event RecoveredNodeHandler RecoveredNode;
+
+        public event TimeoutHandler Timeout;
 
         public bool Reachable { get; private set; }
         
@@ -134,19 +140,44 @@
             return false;
         }
 
-        private void OnLostNode()
+        public void BeginCountdown(int duration)
+        {
+            this.timeoutTimer = new System.Timers.Timer(Convert.ToDouble(duration));
+            this.timeoutTimer.Elapsed += (s, e) => { this.OnTimeout(EventArgs.Empty); };
+            this.timeoutTimer.Elapsed += (s, e) => { this.timeoutTimer.Stop(); };
+            this.timeoutTimer.Start();
+        }
+
+        public void InterruptCountdown()
+        {
+            if (this.timeoutTimer.Enabled)
+            {
+                this.timeoutTimer.Stop();
+            }
+            this.timeoutTimer = null;
+        }
+
+        private void OnLostNode(EventArgs e)
         {
             if (this.LostNode != null)
             {
-                this.LostNode();
+                this.LostNode(this, e);
             }
         }
 
-        private void OnRecoveredNode()
+        private void OnRecoveredNode(EventArgs e)
         {
             if (this.RecoveredNode != null)
             {
-                this.RecoveredNode();
+                this.RecoveredNode(this, e);
+            }
+        }
+
+        private void OnTimeout(EventArgs e)
+        {
+            if (this.Timeout != null)
+            {
+                this.Timeout(this, e);
             }
         }
 
@@ -189,14 +220,14 @@
                     if (!this.Reachable)
                     {
                         this.Reachable = true;
-                        this.OnRecoveredNode();
+                        this.OnRecoveredNode(EventArgs.Empty);
                     }
                 }
                 catch (SocketException)
                 {
                     if (this.Reachable)
                     {
-                        this.OnLostNode();
+                        this.OnLostNode(EventArgs.Empty);
                     }
                 }
 
