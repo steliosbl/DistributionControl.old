@@ -1,6 +1,7 @@
 ﻿namespace DistributionController
 {
     using System;
+    using System.Collections.Generic;
     using System.Net;
     using System.Net.Sockets;
     using System.Threading;
@@ -12,12 +13,13 @@
         private NetClient client;
         private Thread watchdog;
         private System.Timers.Timer timeoutTimer;
+        private AssignedJobGetter assignedJobs;
 
-        public Node(DistributionCommon.Schematic.Node schematic, LostNodeHandler lostHandler, RecoveredNodeHandler recoveredHandler, TimeoutHandler timeoutHandler, int pingDelay)
+        public Node(DistributionCommon.Schematic.Node schematic, LostNodeHandler lostHandler, RecoveredNodeHandler recoveredHandler, TimeoutHandler timeoutHandler, AssignedJobGetter jobGetter, int pingDelay)
         {
             this.Schematic = schematic;
             this.Reachable = false;
-            this.client = new NetClient(this.Schematic.Address, this.Schematic.Port, this.OnLostNode);
+            this.client = new NetClient(this.Schematic.Address, this.Schematic.Port, this.RequestFailedHandler);
 
             this.watchdog = new Thread(() => this.PingLoop(pingDelay));
             this.watchdog.Start();
@@ -40,6 +42,7 @@
             this.LostNode += lostHandler;
             this.RecoveredNode = recoveredHandler;
             this.Timeout += timeoutHandler;
+            this.assignedJobs = jobGetter;
         }
 
         public delegate void LostNodeHandler(object sender, EventArgs e);
@@ -47,6 +50,8 @@
         public delegate void RecoveredNodeHandler(object sender, EventArgs e);
 
         public delegate void TimeoutHandler(object sender, EventArgs e);
+
+        public delegate List<Job> AssignedJobGetter(object sender);
 
         public event LostNodeHandler LostNode;
         
@@ -56,6 +61,14 @@
 
         public bool Reachable { get; private set; }
         
+        public List<Job> AssignedJobs
+        {
+            get
+            {
+                return this.assignedJobs(this);
+            }
+        }
+
         public bool Assign(Job job)
         {
             var request = new DistributionCommon.Requests.Assign(job.Blueprint);
@@ -154,6 +167,7 @@
             {
                 this.timeoutTimer.Stop();
             }
+
             this.timeoutTimer = null;
         }
 
@@ -178,6 +192,15 @@
             if (this.Timeout != null)
             {
                 this.Timeout(this, e);
+            }
+        }
+
+        private void RequestFailedHandler(EventArgs e)
+        {
+            if (this.Reachable)
+            {
+                this.Reachable = false;
+                this.OnLostNode(e);
             }
         }
 
