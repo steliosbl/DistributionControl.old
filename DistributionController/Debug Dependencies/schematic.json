@@ -1,0 +1,11 @@
+﻿{
+  "Nodes": {
+    "1": {
+      "ID": 1,
+      "Slots": 10,
+      "Address": "127.0.0.1",
+      "Port": 4200,
+      "Primary": true
+    }
+  }
+}

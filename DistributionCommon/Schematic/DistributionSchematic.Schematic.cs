@@ -7,20 +7,15 @@
     {
         public readonly Dictionary<int, Node> Nodes;
 
-        public Dictionary<int, Node> PrimaryNodes
+        public Schematic()
         {
-            get
-            {
-                return this.Nodes.Where(node => node.Value.Primary).ToDictionary(dict => dict.Key, dict => dict.Value);
-            }
+            this.Nodes = new Dictionary<int, DistributionCommon.Schematic.Node>();
         }
 
-        public Dictionary<int, Node> SecondaryNodes
+        [Newtonsoft.Json.JsonConstructor]
+        public Schematic(Dictionary<int, Node> nodes)
         {
-            get
-            {
-                return this.Nodes.Where(node => !node.Value.Primary).ToDictionary(dict => dict.Key, dict => dict.Value);
-            }
+            this.Nodes = nodes;
         }
     }
 }
