@@ -34,6 +34,7 @@
             this.logger.Log("Starting up controller...");
             }
 
+            bool preloadPossible = true;
             {
                 var dependencies = new List<string>();
                 dependencies.Add(this.config.SchematicFilename);
@@ -53,6 +54,7 @@
                 if (missingFiles.Contains(this.config.PreLoadFilename))
                 {
                     this.logger.Log("Pre-load file not found.", 1);
+                    preloadPossible = false;
                 }
             }
 
@@ -70,6 +72,7 @@
                     {
                         this.logger.Log("Failed to initialize node", 2);
                     }
+                    this.logger.Log("Node ID:" + node.Value.ID.ToString() + " initialized successfully");
                 }
 
                 if (this.nodes.Count == 0)
@@ -80,7 +83,7 @@
             }
 
             {
-                if (this.config.PreLoad)
+                if (this.config.PreLoad && preloadPossible)
                 {
                     this.logger.Log("Beginning job pre-load.");
                     this.jobs = DistributionCommon.JSONFileReader.GetObject<Dictionary<int, Job>>(this.config.PreLoadFilename);

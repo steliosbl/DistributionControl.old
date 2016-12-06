@@ -22,7 +22,8 @@
         {
             try
             {
-                var client = new TcpClient(this.remoteEP);
+                var client = new TcpClient();
+                client.Connect(this.remoteEP);
                 var stream = client.GetStream();
 
                 var data = System.Text.Encoding.ASCII.GetBytes(message);

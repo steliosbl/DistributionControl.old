@@ -36,6 +36,7 @@
             }
             else
             {
+                this.watchdog.Abort();
                 throw new InitializationException();
             }
 
@@ -231,12 +232,12 @@
 
         private void PingLoop(int delay)
         {
-            var client = new TcpClient();
             var nodeEP = new IPEndPoint(this.Schematic.Address, this.Schematic.Port);
             while (true)
             {
                 try
                 {
+                    var client = new TcpClient();
                     client.Connect(nodeEP);
                     client.Close();
 
