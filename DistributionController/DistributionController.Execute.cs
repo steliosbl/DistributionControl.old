@@ -5,6 +5,7 @@
         [System.STAThread]
         public static void Main(string[] args)
         {
+            new Controller();
         }
     }
 }

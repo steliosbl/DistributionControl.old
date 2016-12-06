@@ -45,13 +45,13 @@
             this.assignedJobs = jobGetter;
         }
 
-        public delegate void LostNodeHandler(object sender, EventArgs e);
+        public delegate void LostNodeHandler(Node sender, EventArgs e);
 
-        public delegate void RecoveredNodeHandler(object sender, EventArgs e);
+        public delegate void RecoveredNodeHandler(Node sender, EventArgs e);
 
-        public delegate void TimeoutHandler(object sender, EventArgs e);
+        public delegate void TimeoutHandler(Node sender, EventArgs e);
 
-        public delegate List<Job> AssignedJobGetter(object sender);
+        public delegate List<Job> AssignedJobGetter(Node sender);
 
         public event LostNodeHandler LostNode;
         

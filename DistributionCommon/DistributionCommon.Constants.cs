@@ -12,6 +12,10 @@
 
         public sealed class DistributionController
         {
+            public sealed class Controller
+            {
+                public const string ConfigFilename = "DistributionController.cfg";
+            }
         }
 
         public sealed class Communication
