@@ -106,13 +106,16 @@
                     }
 
                     this.logger.Log("Beginning automatic assignment.");
-                    this.AssignJobsBalanced(this.jobs.Values.Where(job => job.NodeID == 0).Select(job => job.Blueprint.ID).ToList());
+                    var a = this.jobs.Values.Where(job => job.NodeID == 0).Select(job => job.Blueprint.ID).ToList();
+                    this.AssignJobsBalanced(a);
+                    this.logger.Log("Job pre-load completed.");
                 }
                 else
                 {
                     this.jobs = new Dictionary<int, Job>();
                 }
             }
+            this.logger.Log("Startup completed.");
         }
             
         private void LostNodeHandler(Node sender, EventArgs e)
@@ -166,19 +169,19 @@
             while (jobIDs.Count > 0)
             {
                 int min = nodes.Aggregate((l, r) => l.Value < r.Value ? l : r).Key;
-                if (min != 1)
+                if (min != 0)
                 {
                     if (this.nodes[min].Assign(this.jobs[jobIDs[0]]))
                     {
                         this.logger.Log("Assigned job ID:" + jobIDs[0].ToString() + " to node ID:" + min.ToString());
                         this.jobs[jobIDs[0]].Transfer(min);
-                        jobIDs.RemoveAt(0);
                         nodes[min] = this.nodes[min].AssignedJobs.Count / this.nodes[min].Schematic.Slots;
                         if (this.jobs[jobIDs[0]].State == 1)
                         {
                             this.logger.Log("Awoke job ID:" + jobIDs[0].ToString());
                             this.nodes[min].Wake(jobIDs[0]);
                         }
+                        jobIDs.RemoveAt(0);
                     }
                 }
                 else

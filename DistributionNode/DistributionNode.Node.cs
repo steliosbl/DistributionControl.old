@@ -108,6 +108,7 @@
             if (!this.constructed)
             {
                 this.schematic = request.Schematic;
+                this.constructed = true;
                 success = true;
             }
 

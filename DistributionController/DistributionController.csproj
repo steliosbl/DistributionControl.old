@@ -68,6 +68,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Debug Dependencies\DistributionController.cfg" />
+    <None Include="Debug Dependencies\preload.json" />
     <None Include="Debug Dependencies\schematic.json" />
     <None Include="packages.config" />
   </ItemGroup>

@@ -1,0 +1,13 @@
+﻿{
+  "1": {
+    "Redundant": true,
+    "Balanced": true,
+    "NodeID": 0,
+    "State": 1,
+    "Blueprint": {
+      "ID": 1,
+      "Address": "http://127.0.0.1:1337/",
+      "Delay": 1000
+    }
+  }
+}

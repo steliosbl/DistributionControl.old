@@ -1,6 +1,6 @@
 ﻿namespace DistributionController
 {
-    internal sealed class Job : DistributionCommon.Job.Base
+    public sealed class Job : DistributionCommon.Job.Base
     {
         public readonly bool Redundant;
         public readonly bool Balanced;
