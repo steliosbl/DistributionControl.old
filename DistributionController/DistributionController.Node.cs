@@ -157,8 +157,8 @@
         public void BeginCountdown(int duration)
         {
             this.timeoutTimer = new System.Timers.Timer(Convert.ToDouble(duration));
+            this.timeoutTimer.AutoReset = false;
             this.timeoutTimer.Elapsed += (s, e) => { this.OnTimeout(EventArgs.Empty); };
-            this.timeoutTimer.Elapsed += (s, e) => { this.timeoutTimer.Stop(); };
             this.timeoutTimer.Start();
         }
 
@@ -252,6 +252,7 @@
                     if (this.Reachable)
                     {
                         this.OnLostNode(EventArgs.Empty);
+                        this.Reachable = false;
                     }
                 }
 

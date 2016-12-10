@@ -127,6 +127,7 @@
             
         private void LostNodeHandler(Node sender, EventArgs e)
         {
+            this.logger.Log("Lost node ID:" + sender.Schematic.ID.ToString(), 1);
             sender.BeginCountdown(this.config.Timeout);
         }
 
@@ -148,7 +149,7 @@
 
         private void TimeoutHandler(Node sender, EventArgs e)
         {
-            this.logger.Log("Lost node ID:" + sender.Schematic.ID.ToString(), 2);
+            this.logger.Log("Node ID:" + sender.Schematic.ID.ToString() + " timed out.", 2);
             if (this.config.Redundancy)
             {
                 if (this.TransferRedundantJobs(sender))
