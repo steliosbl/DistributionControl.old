@@ -67,12 +67,12 @@
                     {
                         this.logger.Log("Initializing node ID:" + node.Value.ID);
                         this.nodes.Add(node.Value.ID, new Node(node.Value, this.LostNodeHandler, this.RecoveredNodeHandler, this.TimeoutHandler, this.AssignedJobGetter, this.config.PingDelay));
+                        this.logger.Log("Node ID:" + node.Value.ID.ToString() + " initialized successfully");
                     }
                     catch (Node.InitializationException)
                     {
                         this.logger.Log("Failed to initialize node", 2);
                     }
-                    this.logger.Log("Node ID:" + node.Value.ID.ToString() + " initialized successfully");
                 }
 
                 if (this.nodes.Count == 0)
