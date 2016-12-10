@@ -92,7 +92,14 @@
                         this.logger.Log("Loading job ID:" + job.Key);
                         try
                         {
-                            if (!this.nodes[job.Value.NodeID].Assign(job.Value))
+                            if (this.nodes[job.Value.NodeID].Assign(job.Value))
+                            {
+                                if (job.Value.State == 1)
+                                {
+                                    this.nodes[job.Value.NodeID].Wake(job.Value.Blueprint.ID);
+                                }
+                            }
+                            else
                             {
                                 this.logger.Log("Failed to load job.", 1);
                                 this.jobs.Remove(job.Key);
@@ -164,22 +171,22 @@
 
         private List<int> AssignJobsBalanced(List<int> jobIDs)
         {
-            var nodes = this.nodes.Where(node => node.Value.Reachable).ToDictionary(node => node.Key, node => node.Value.AssignedJobs.Count / node.Value.Schematic.Slots);
+            var nodes = this.nodes.Where(node => node.Value.Reachable).ToDictionary(node => node.Key, node => (float)node.Value.AssignedJobs.Count / node.Value.Schematic.Slots);
             
             while (jobIDs.Count > 0)
             {
-                int min = nodes.Aggregate((l, r) => l.Value < r.Value ? l : r).Key;
-                if (min != 0)
+                var min = nodes.Aggregate((l, r) => l.Value < r.Value ? l : r);
+                if (min.Value != 1)
                 {
-                    if (this.nodes[min].Assign(this.jobs[jobIDs[0]]))
+                    if (this.nodes[min.Key].Assign(this.jobs[jobIDs[0]]))
                     {
-                        this.logger.Log("Assigned job ID:" + jobIDs[0].ToString() + " to node ID:" + min.ToString());
-                        this.jobs[jobIDs[0]].Transfer(min);
-                        nodes[min] = this.nodes[min].AssignedJobs.Count / this.nodes[min].Schematic.Slots;
+                        this.logger.Log("Assigned job ID:" + jobIDs[0].ToString() + " to node ID:" + min.Key.ToString());
+                        this.jobs[jobIDs[0]].Transfer(min.Key);
+                        nodes[min.Key] = (float)this.nodes[min.Key].AssignedJobs.Count / this.nodes[min.Key].Schematic.Slots;
                         if (this.jobs[jobIDs[0]].State == 1)
                         {
                             this.logger.Log("Awoke job ID:" + jobIDs[0].ToString());
-                            this.nodes[min].Wake(jobIDs[0]);
+                            this.nodes[min.Key].Wake(jobIDs[0]);
                         }
                         jobIDs.RemoveAt(0);
                     }

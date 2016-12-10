@@ -6,6 +6,13 @@
       "Address": "127.0.0.1",
       "Port": 4200,
       "Primary": true
+    },
+      "2": {
+      "ID": 2,
+      "Slots": 10,
+      "Address": "192.168.1.9",
+      "Port": 4200,
+      "Primary": true
     }
   }
 }
