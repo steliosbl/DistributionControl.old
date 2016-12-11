@@ -263,13 +263,12 @@
             this.logger.Log("Beginning load balance");
             var nodes = this.nodes.Where(node => node.Value.Reachable).Select(node => node.Key);
 
-            int totalSlots = this.nodes.Sum(node => node.Value.Schematic.Slots);
 
             var jobs = new List<int>();
 
             foreach (var node in nodes)
             {
-                int idealJobs = (int)Math.Ceiling((decimal)(this.nodes[node].Schematic.Slots * this.jobs.Count) / totalSlots);
+                int idealJobs = (int)Math.Ceiling((decimal)(this.nodes[node].Schematic.Slots * this.jobs.Count) / this.TotalSlots);
 
                 if (this.nodes[node].AssignedJobs.Count > idealJobs)
                 {
