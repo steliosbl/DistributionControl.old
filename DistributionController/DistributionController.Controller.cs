@@ -203,7 +203,7 @@
 
         private bool TransferRedundantJobs(Node lostNode)
         {
-            this.logger.Log("Beginning transfer or redundant jobs from node ID:" + lostNode.Schematic.ID.ToString());
+            this.logger.Log("Beginning transfer of redundant jobs from node ID:" + lostNode.Schematic.ID.ToString());
 
             var redundantJobs = this.jobs.Where(job => job.Value.NodeID == lostNode.Schematic.ID && job.Value.Redundant).Select(job => job.Key).ToList();
 

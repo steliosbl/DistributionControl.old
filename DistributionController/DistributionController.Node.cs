@@ -232,27 +232,33 @@
 
         private void PingLoop(int delay)
         {
-            var nodeEP = new IPEndPoint(this.Schematic.Address, this.Schematic.Port);
             while (true)
             {
+                bool success = false;
                 try
                 {
                     var client = new TcpClient();
-                    client.Connect(nodeEP);
+                    success = client.BeginConnect(this.Schematic.Address, this.Schematic.Port, null, null).AsyncWaitHandle.WaitOne(delay);
                     client.Close();
-
-                    if (!this.Reachable)
-                    {
-                        this.Reachable = true;
-                        this.OnRecoveredNode(EventArgs.Empty);
-                    }
                 }
-                catch (SocketException)
+                catch (SocketException) { }
+                finally
                 {
-                    if (this.Reachable)
+                    if (success)
                     {
-                        this.OnLostNode(EventArgs.Empty);
-                        this.Reachable = false;
+                        if (!this.Reachable)
+                        {
+                            this.Reachable = true;
+                            this.OnRecoveredNode(EventArgs.Empty);
+                        }
+                    }
+                    else
+                    {
+                        if (this.Reachable)
+                        {
+                            this.OnLostNode(EventArgs.Empty);
+                            this.Reachable = false;
+                        }
                     }
                 }
 
