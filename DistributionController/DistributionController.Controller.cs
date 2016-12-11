@@ -87,13 +87,14 @@
                 {
                     this.logger.Log("Beginning job pre-load.");
                     this.jobs = DistributionCommon.JSONFileReader.GetObject<Dictionary<int, Job>>(this.config.PreLoadFilename);
+                    var unsuccessful = new List<int>();
                     foreach (var job in this.jobs.Where(job => job.Value.NodeID != 0))
                     {
-                        this.logger.Log("Loading job ID:" + job.Key);
                         try
                         {
                             if (this.nodes[job.Value.NodeID].Assign(job.Value))
                             {
+                                this.logger.Log("Loaded job ID:" + job.Key);
                                 if (job.Value.State == 1)
                                 {
                                     this.nodes[job.Value.NodeID].Wake(job.Value.Blueprint.ID);
@@ -101,20 +102,41 @@
                             }
                             else
                             {
-                                this.logger.Log("Failed to load job.", 1);
-                                this.jobs.Remove(job.Key);
+                                this.logger.Log("Failed to load job ID:" + job.Key, 1);
+                                unsuccessful.Add(job.Key);
                             }
                         }
                         catch (KeyNotFoundException)
                         {
-                            this.logger.Log("Failed to load job.", 1);
-                            this.jobs.Remove(job.Key);
+                            this.logger.Log("Failed to load job ID:" + job.Key, 1);
+                            unsuccessful.Add(job.Key);
+                        }
+                    }
+
+                    foreach(int job in unsuccessful)
+                    {
+                        if (this.config.AutoAssignFailedPreLoadJobs)
+                        {
+                            this.jobs[job].Transfer(0);
+                        }
+                        else
+                        {
+                            this.jobs.Remove(job);
                         }
                     }
 
                     this.logger.Log("Beginning automatic assignment.");
-                    var a = this.jobs.Values.Where(job => job.NodeID == 0).Select(job => job.Blueprint.ID).ToList();
-                    this.AssignJobsBalanced(a);
+                    var unassigned = this.jobs.Values.Where(job => job.NodeID == 0).Select(job => job.Blueprint.ID).Where(job => this.jobs[job].Balanced).ToList();
+                    var remaining = this.AssignJobsBalanced(unassigned);
+                    var assigned = unassigned.Where(job => !remaining.Any(rem => rem == job));
+                    foreach (int job in assigned)
+                    {
+                        this.logger.Log("Loaded job ID:" + job);
+                    }
+                    foreach (int job in remaining)
+                    {
+                        this.logger.Log("Failed to load job ID:" + job, 1);
+                    }
                     this.logger.Log("Job pre-load completed.");
                 }
                 else
@@ -123,6 +145,22 @@
                 }
             }
             this.logger.Log("Startup completed.");
+        }
+
+        private int TotalSlots
+        {
+            get
+            {
+                return this.nodes.Values.Where(node => node.Reachable).Sum(node => node.Schematic.Slots);
+            }
+        }
+
+        private int TotalSlotsAvailable
+        {
+            get
+            {
+                return this.TotalSlots - this.jobs.Count(job => job.Value.NodeID != 0);
+            }
         }
             
         private void LostNodeHandler(Node sender, EventArgs e)
@@ -172,29 +210,32 @@
 
         private List<int> AssignJobsBalanced(List<int> jobIDs)
         {
-            var nodes = this.nodes.Where(node => node.Value.Reachable).ToDictionary(node => node.Key, node => (float)node.Value.AssignedJobs.Count / node.Value.Schematic.Slots);
-            
-            while (jobIDs.Count > 0)
+            if (jobIDs.Count <= this.TotalSlotsAvailable)
             {
-                var min = nodes.Aggregate((l, r) => l.Value < r.Value ? l : r);
-                if (min.Value != 1)
+                var nodes = this.nodes.Where(node => node.Value.Reachable).ToDictionary(node => node.Key, node => (float)node.Value.AssignedJobs.Count / node.Value.Schematic.Slots);
+
+                while (jobIDs.Count > 0)
                 {
-                    if (this.nodes[min.Key].Assign(this.jobs[jobIDs[0]]))
+                    var min = nodes.Aggregate((l, r) => l.Value < r.Value ? l : r);
+                    if (min.Value != 1)
                     {
-                        this.logger.Log("Assigned job ID:" + jobIDs[0].ToString() + " to node ID:" + min.Key.ToString());
-                        this.jobs[jobIDs[0]].Transfer(min.Key);
-                        nodes[min.Key] = (float)this.nodes[min.Key].AssignedJobs.Count / this.nodes[min.Key].Schematic.Slots;
-                        if (this.jobs[jobIDs[0]].State == 1)
+                        if (this.nodes[min.Key].Assign(this.jobs[jobIDs[0]]))
                         {
-                            this.logger.Log("Awoke job ID:" + jobIDs[0].ToString());
-                            this.nodes[min.Key].Wake(jobIDs[0]);
+                            this.logger.Log("Assigned job ID:" + jobIDs[0].ToString() + " to node ID:" + min.Key.ToString());
+                            this.jobs[jobIDs[0]].Transfer(min.Key);
+                            nodes[min.Key] = (float)this.nodes[min.Key].AssignedJobs.Count / this.nodes[min.Key].Schematic.Slots;
+                            if (this.jobs[jobIDs[0]].State == 1)
+                            {
+                                this.logger.Log("Awoke job ID:" + jobIDs[0].ToString());
+                                this.nodes[min.Key].Wake(jobIDs[0]);
+                            }
+                            jobIDs.RemoveAt(0);
                         }
-                        jobIDs.RemoveAt(0);
                     }
-                }
-                else
-                {
-                    break;
+                    else
+                    {
+                        break;
+                    }
                 }
             }
 

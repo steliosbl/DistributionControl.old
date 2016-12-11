@@ -6,6 +6,7 @@
         public readonly bool LoadBalancing;
         public readonly bool PreLoad;
         public readonly bool Redundancy;
+        public readonly bool AutoAssignFailedPreLoadJobs;
         public readonly bool Verbose;
         public readonly int PingDelay;
         public readonly int Timeout;
@@ -18,7 +19,8 @@
             bool liveErrors, 
             bool loadBalancing, 
             bool preLoad, 
-            bool redundancy, 
+            bool redundancy,
+            bool autoAssignFailedPreLoadJobs,
             bool verbose, 
             int pingDelay, 
             int timeout, 
@@ -30,6 +32,7 @@
             this.LoadBalancing = loadBalancing;
             this.PreLoad = preLoad;
             this.Redundancy = redundancy;
+            this.AutoAssignFailedPreLoadJobs = autoAssignFailedPreLoadJobs;
             this.Verbose = verbose;
             this.PingDelay = pingDelay;
             this.Timeout = timeout;
