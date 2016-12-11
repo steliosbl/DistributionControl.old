@@ -245,4 +245,6 @@ ModelManifest.xml
 .fake/
 
 #Sty
-Debug\ Dependencies/
+"Debug Dependencies/"
+/DistributionController/Debug Dependencies
+/DistributionNode/Debug Dependencies
