@@ -6,8 +6,7 @@
             int id
 #if DEBUG
             ,string address,
-            int delay
-            )
+            int delay)
 #endif
         {
             this.ID = id;
@@ -19,6 +18,7 @@
         public int ID { get; private set; }
 #if DEBUG
         public string Address { get; private set; }
+
         public int Delay { get; private set; }
 #endif
     }

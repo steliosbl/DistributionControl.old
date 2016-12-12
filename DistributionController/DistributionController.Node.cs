@@ -241,7 +241,9 @@
                     success = client.BeginConnect(this.Schematic.Address, this.Schematic.Port, null, null).AsyncWaitHandle.WaitOne(delay);
                     client.Close();
                 }
-                catch (SocketException) { }
+                catch (SocketException)
+                {
+                }
                 finally
                 {
                     if (success)

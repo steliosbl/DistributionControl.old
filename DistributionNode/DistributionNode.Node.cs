@@ -77,6 +77,7 @@
                         this.logger.Log("Operation failed", 1);
                         break;
                 }
+
                 return JsonConvert.SerializeObject(result.Item2);
             }
             catch (JsonException)

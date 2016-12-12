@@ -9,7 +9,7 @@
     {
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(IPEndPoint));
+            return objectType == typeof(IPEndPoint);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

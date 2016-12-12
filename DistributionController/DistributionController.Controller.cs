@@ -113,7 +113,7 @@
                         }
                     }
 
-                    foreach(int job in unsuccessful)
+                    foreach (int job in unsuccessful)
                     {
                         if (this.config.AutoAssignFailedPreLoadJobs)
                         {
@@ -133,10 +133,12 @@
                     {
                         this.logger.Log("Loaded job ID:" + job);
                     }
+
                     foreach (int job in remaining)
                     {
                         this.logger.Log("Failed to load job ID:" + job, 1);
                     }
+
                     this.logger.Log("Job pre-load completed.");
                 }
                 else
@@ -144,6 +146,7 @@
                     this.jobs = new Dictionary<int, Job>();
                 }
             }
+
             this.logger.Log("Startup completed.");
         }
 
@@ -229,6 +232,7 @@
                                 this.logger.Log("Awoke job ID:" + jobIDs[0].ToString());
                                 this.nodes[min.Key].Wake(jobIDs[0]);
                             }
+
                             jobIDs.RemoveAt(0);
                         }
                     }
@@ -262,7 +266,6 @@
         {
             this.logger.Log("Beginning load balance");
             var nodes = this.nodes.Where(node => node.Value.Reachable).Select(node => node.Key);
-
 
             var jobs = new List<int>();
 

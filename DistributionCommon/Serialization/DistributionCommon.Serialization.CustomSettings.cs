@@ -7,8 +7,8 @@
     {
         public CustomSettings() : base()
         {
-            base.Converters.Add(new IPAddressConverter());
-            base.Converters.Add(new IPEndPointConverter());   
+            Converters.Add(new IPAddressConverter());
+            Converters.Add(new IPEndPointConverter());   
         }
     }
 }
