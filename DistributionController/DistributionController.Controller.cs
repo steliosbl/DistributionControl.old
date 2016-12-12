@@ -147,7 +147,25 @@
                 }
             }
 
+            {
+                if (this.config.LoadBalancing)
+                {
+                    this.DistributionModification += this.BalanceAllJobs;
+                }
+            }
             this.logger.Log("Startup completed.");
+        }
+
+        private delegate void DistributionModificationHandler();
+
+        private event DistributionModificationHandler DistributionModification;
+
+        private void OnDistributionModification()
+        {
+            if (this.DistributionModification != null)
+            {
+                this.DistributionModification();
+            }
         }
 
         private int TotalSlots
@@ -180,6 +198,10 @@
             if (!sender.Construct())
             {
                 throw new Node.InitializationException();
+            }
+            else
+            {
+                this.OnDistributionModification();
             }
         }
 
@@ -275,7 +297,7 @@
 
                 if (this.nodes[node].AssignedJobs.Count > idealJobs)
                 {
-                    var removeJobs = this.nodes[node].AssignedJobs.GetRange(idealJobs, this.nodes[node].AssignedJobs.Count - 1).Select(job => job.Blueprint.ID);
+                    var removeJobs = this.nodes[node].AssignedJobs.GetRange(idealJobs, this.nodes[node].AssignedJobs.Count - idealJobs).Select(job => job.Blueprint.ID);
                     foreach (int jobID in removeJobs)
                     {
                         this.nodes[node].Remove(jobID);
