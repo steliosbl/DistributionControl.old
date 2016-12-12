@@ -16,15 +16,22 @@
         private DistributionCommon.Logger logger;
         private bool constructed;
 
-        public Node()
+        public Node(string configFilename = DistributionCommon.Constants.DistributionNode.Node.ConfigFilename)
         {
-            string[] dependencies = { DistributionCommon.Constants.DistributionNode.Node.ConfigFilename };
+            string[] dependencies = { configFilename };
             if (new DistributionCommon.DependencyManager(dependencies).FindMissing().Count != 0)
             {
                 throw new DistributionCommon.DistributionControlException("Configuration file not found.");
             }
 
-            this.config = DistributionCommon.JSONFileReader.GetObject<Config>(DistributionCommon.Constants.DistributionNode.Node.ConfigFilename);
+            try
+            {
+                this.config = DistributionCommon.JSONFileReader.GetObject<Config>(configFilename);
+            }
+            catch (JsonException)
+            {
+                throw new DistributionCommon.DistributionControlException("Configuration file invalid.");
+            }
 
             if (this.config != default(Config))
             {
@@ -36,6 +43,7 @@
                 {
                     this.logger.Log("Initializing listener...");
                     this.listener = new NetListener(this.config.Port, this.RequestSifter, this.logger.Log);
+                    this.logger.Log("Listening on port:" + this.config.Port.ToString());
                     this.logger.Log("Startup complete");
                     var task = Task.Run(async () => { await this.listener.StartListener(); });
                     task.Wait();
@@ -53,7 +61,7 @@
             }
             else
             {
-                throw new DistributionCommon.DistributionControlException("Unable to load configuration file.");
+                throw new DistributionCommon.DistributionControlException("Configuration file invalid.");
             }
         }
 

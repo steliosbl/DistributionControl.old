@@ -6,7 +6,14 @@
         public static void Main(string[] args)
         {
             Newtonsoft.Json.JsonConvert.DefaultSettings = () => new DistributionCommon.Serialization.CustomSettings();
-            new Node();
+            if (args.Length == 0)
+            {
+                new Node();
+            }
+            else
+            {
+                new Node(args[0]);
+            }
         }
     }
 }

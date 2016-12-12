@@ -12,20 +12,27 @@
         private DistributionCommon.Logger logger;
         private DistributionCommon.Schematic.Schematic schematic;
 
-        public Controller()
+        public Controller(string configFilename = DistributionCommon.Constants.DistributionController.Controller.ConfigFilename)
         {
             {
-                string[] dependencies = { DistributionCommon.Constants.DistributionController.Controller.ConfigFilename };
+                string[] dependencies = { configFilename };
                 if (new DistributionCommon.DependencyManager(dependencies).FindMissing().Count != 0)
                 {
                     throw new DistributionCommon.DistributionControlException("Configuration file not found.");
                 }
 
-                this.config = DistributionCommon.JSONFileReader.GetObject<Config>(DistributionCommon.Constants.DistributionController.Controller.ConfigFilename);
+                try
+                {
+                    this.config = DistributionCommon.JSONFileReader.GetObject<Config>(configFilename);
+                }
+                catch (Newtonsoft.Json.JsonException)
+                {
+                    throw new DistributionCommon.DistributionControlException("Configuration file invalid.");
+                }
 
                 if (this.config == default(Config))
                 {
-                    throw new DistributionCommon.DistributionControlException("Unable to read configuration file.");
+                    throw new DistributionCommon.DistributionControlException("Configuration file invalid.");
                 }
             }
 
