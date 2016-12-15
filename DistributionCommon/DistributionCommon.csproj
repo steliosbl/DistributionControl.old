@@ -57,6 +57,17 @@
     <Compile Include="DistributionCommon.DependencyManager.cs" />
     <Compile Include="DistributionCommon.DistributionControlException.cs" />
     <Compile Include="DistributionCommon.Logger.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.AssignJob.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.AssignNode.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.Base.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.RemoveJob.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.RemoveNode.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.SleepJob.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.SleepNode.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.Status.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.StatusChanged.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.WakeJob.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.WakeNode.cs" />
     <Compile Include="Job\DistributionCommon.Job.Blueprint.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
@@ -90,7 +101,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interface\Requests\" />
     <Folder Include="Interface\Responses\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
