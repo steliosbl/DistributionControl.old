@@ -1,4 +1,4 @@
-﻿namespace DistributionCommon.Requests
+﻿namespace DistributionCommon.Comm.Requests
 {
     using System;
 

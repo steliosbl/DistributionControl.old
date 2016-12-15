@@ -57,27 +57,29 @@
     <Compile Include="DistributionCommon.DependencyManager.cs" />
     <Compile Include="DistributionCommon.DistributionControlException.cs" />
     <Compile Include="DistributionCommon.Logger.cs" />
-    <Compile Include="Job\DistributionCommon.Job.Blueprint.cs" />
+    <Compile Include="Job\DistributionCommon.Job.Blueprint.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Job\DistributionCommon.Job.Custom.cs" />
     <Compile Include="Job\DistributionCommon.Job.Base.cs" />
     <Compile Include="DistributionCommon.JSONFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Requests\DistributionCommon.Requests.Assign.cs" />
-    <Compile Include="Requests\DistributionCommon.Requests.Base.cs" />
-    <Compile Include="Requests\DistributionCommon.Requests.Construct.cs" />
-    <Compile Include="Requests\DistributionCommon.Requests.Remove.cs" />
-    <Compile Include="Requests\DistributionCommon.Requests.Reset.cs" />
-    <Compile Include="Requests\DistributionCommon.Requests.Sleep.cs" />
-    <Compile Include="Requests\DistributionCommon.Requests.Status.cs" />
-    <Compile Include="Requests\DistributionCommon.Requests.Wake.cs" />
-    <Compile Include="Responses\DistributionCommon.Responses.Sleep.cs" />
-    <Compile Include="Responses\DistributionCommon.Responses.Wake.cs" />
-    <Compile Include="Responses\DistributionCommon.Responses.Assign.cs" />
-    <Compile Include="Responses\DistributionCommon.Responses.Base.cs" />
-    <Compile Include="Responses\DistributionCommon.Responses.Construct.cs" />
-    <Compile Include="Responses\DistributionCommon.Responses.Remove.cs" />
-    <Compile Include="Responses\DistributionCommon.Responses.Reset.cs" />
-    <Compile Include="Responses\DistributionCommon.Responses.Status.cs" />
+    <Compile Include="Comm\Requests\DistributionCommon..Comm.Requests.Assign.cs" />
+    <Compile Include="Comm\Requests\DistributionCommon.Comm.Requests.Base.cs" />
+    <Compile Include="Comm\Requests\DistributionCommon.Comm.Requests.Construct.cs" />
+    <Compile Include="Comm\Requests\DistributionCommon.Comm.Requests.Remove.cs" />
+    <Compile Include="Comm\Requests\DistributionCommon.Comm.Requests.Reset.cs" />
+    <Compile Include="Comm\Requests\DistributionCommon.Comm.Requests.Sleep.cs" />
+    <Compile Include="Comm\Requests\DistributionCommon.Comm.Requests.Status.cs" />
+    <Compile Include="Comm\Requests\DistributionCommon.Comm.Requests.Wake.cs" />
+    <Compile Include="Comm\Responses\DistributionCommon.Comm.Responses.Sleep.cs" />
+    <Compile Include="Comm\Responses\DistributionCommon.Comm.Responses.Wake.cs" />
+    <Compile Include="Comm\Responses\DistributionCommon.Comm.Responses.Assign.cs" />
+    <Compile Include="Comm\Responses\DistributionCommon.Comm.Responses.Base.cs" />
+    <Compile Include="Comm\Responses\DistributionCommon.Comm.Responses.Construct.cs" />
+    <Compile Include="Comm\Responses\DistributionCommon.Comm.Responses.Remove.cs" />
+    <Compile Include="Comm\Responses\DistributionCommon.Comm.Responses.Reset.cs" />
+    <Compile Include="Comm\Responses\DistributionCommon.Comm.Responses.Status.cs" />
     <Compile Include="Schematic\DistributionSchematic.Node.cs" />
     <Compile Include="Schematic\DistributionSchematic.Schematic.cs" />
     <Compile Include="Serialization\DistributionCommon.Serialization.CustomSettings.cs" />
@@ -87,7 +89,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interface\Requests\" />
+    <Folder Include="Interface\Responses\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

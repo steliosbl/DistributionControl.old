@@ -72,9 +72,9 @@
 
         public bool Assign(Job job)
         {
-            var request = new DistributionCommon.Requests.Assign(job.Blueprint);
-            var response = this.SendRequest<DistributionCommon.Responses.Assign>(request);
-            if (response != default(DistributionCommon.Responses.Assign))
+            var request = new DistributionCommon.Comm.Requests.Assign(job.Blueprint);
+            var response = this.SendRequest<DistributionCommon.Comm.Responses.Assign>(request);
+            if (response != default(DistributionCommon.Comm.Responses.Assign))
             {
                 return response.Success;
             }
@@ -84,9 +84,9 @@
 
         public bool Construct()
         {
-            var request = new DistributionCommon.Requests.Construct(this.Schematic);
-            var response = this.SendRequest<DistributionCommon.Responses.Construct>(request);
-            if (response != default(DistributionCommon.Responses.Construct))
+            var request = new DistributionCommon.Comm.Requests.Construct(this.Schematic);
+            var response = this.SendRequest<DistributionCommon.Comm.Responses.Construct>(request);
+            if (response != default(DistributionCommon.Comm.Responses.Construct))
             {
                 return response.Success;
             }
@@ -96,9 +96,9 @@
 
         public bool Remove(int id)
         {
-            var request = new DistributionCommon.Requests.Remove(id);
-            var response = this.SendRequest<DistributionCommon.Responses.Remove>(request);
-            if (response != default(DistributionCommon.Responses.Remove))
+            var request = new DistributionCommon.Comm.Requests.Remove(id);
+            var response = this.SendRequest<DistributionCommon.Comm.Responses.Remove>(request);
+            if (response != default(DistributionCommon.Comm.Responses.Remove))
             {
                 return response.Success;
             }
@@ -108,9 +108,9 @@
 
         public bool Reset()
         {
-            var request = new DistributionCommon.Requests.Reset();
-            var response = this.SendRequest<DistributionCommon.Responses.Reset>(request);
-            if (response != default(DistributionCommon.Responses.Reset))
+            var request = new DistributionCommon.Comm.Requests.Reset();
+            var response = this.SendRequest<DistributionCommon.Comm.Responses.Reset>(request);
+            if (response != default(DistributionCommon.Comm.Responses.Reset))
             {
                 return response.Success;
             }
@@ -120,9 +120,9 @@
 
         public bool Sleep(int id)
         {
-            var request = new DistributionCommon.Requests.Sleep(id);
-            var response = this.SendRequest<DistributionCommon.Responses.Sleep>(request);
-            if (response != default(DistributionCommon.Responses.Sleep))
+            var request = new DistributionCommon.Comm.Requests.Sleep(id);
+            var response = this.SendRequest<DistributionCommon.Comm.Responses.Sleep>(request);
+            if (response != default(DistributionCommon.Comm.Responses.Sleep))
             {
                 return response.Success;
             }
@@ -132,9 +132,9 @@
 
         public bool Status()
         {
-            var request = new DistributionCommon.Requests.Status();
-            var response = this.SendRequest<DistributionCommon.Responses.Status>(request);
-            if (response != default(DistributionCommon.Responses.Status))
+            var request = new DistributionCommon.Comm.Requests.Status();
+            var response = this.SendRequest<DistributionCommon.Comm.Responses.Status>(request);
+            if (response != default(DistributionCommon.Comm.Responses.Status))
             {
                 return response.Constructed;
             }
@@ -144,9 +144,9 @@
 
         public bool Wake(int id)
         {
-            var request = new DistributionCommon.Requests.Wake(id);
-            var response = this.SendRequest<DistributionCommon.Responses.Wake>(request);
-            if (response != default(DistributionCommon.Responses.Wake))
+            var request = new DistributionCommon.Comm.Requests.Wake(id);
+            var response = this.SendRequest<DistributionCommon.Comm.Responses.Wake>(request);
+            if (response != default(DistributionCommon.Comm.Responses.Wake))
             {
                 return response.Success;
             }
@@ -205,7 +205,7 @@
             }
         }
 
-        private T SendRequest<T>(DistributionCommon.Requests.Base request)
+        private T SendRequest<T>(DistributionCommon.Comm.Requests.Base request)
         {
             try
             {
@@ -215,7 +215,7 @@
                 string responseString = this.client.Send(JsonConvert.SerializeObject(request));
                 if (responseString != DistributionCommon.Constants.Communication.InvalidRequestResponse)
                 {
-                    var baseResponse = JsonConvert.DeserializeObject<DistributionCommon.Responses.Base>(responseString);
+                    var baseResponse = JsonConvert.DeserializeObject<DistributionCommon.Comm.Responses.Base>(responseString);
                     if (baseResponse.ResponseType == typeof(T))
                     {
                         return JsonConvert.DeserializeObject<T>(responseString);

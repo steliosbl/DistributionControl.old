@@ -1,4 +1,4 @@
-﻿namespace DistributionCommon.Responses
+﻿namespace DistributionCommon.Comm.Responses
 {
     public sealed class Sleep : Base
     {

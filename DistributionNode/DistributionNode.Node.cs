@@ -72,10 +72,10 @@
                 var settings = new JsonSerializerSettings();
                 settings.MissingMemberHandling = MissingMemberHandling.Error;
 
-                var baseRequest = JsonConvert.DeserializeObject<DistributionCommon.Requests.Base>(data);
+                var baseRequest = JsonConvert.DeserializeObject<DistributionCommon.Comm.Requests.Base>(data);
                 dynamic request = JsonConvert.DeserializeObject(data, baseRequest.RequestType);
                 this.logger.Log("Received request {" + baseRequest.RequestType.Name + "}");
-                Tuple<bool?, DistributionCommon.Responses.Base> result = this.HandleRequest(request);
+                Tuple<bool?, DistributionCommon.Comm.Responses.Base> result = this.HandleRequest(request);
                 switch (result.Item1)
                 {
                     case true:
@@ -95,7 +95,7 @@
             }
         }
 
-        private Tuple<bool?, DistributionCommon.Responses.Base> HandleRequest(DistributionCommon.Requests.Assign request)
+        private Tuple<bool?, DistributionCommon.Comm.Responses.Base> HandleRequest(DistributionCommon.Comm.Requests.Assign request)
         {
             bool success = false;
             if (this.constructed)
@@ -108,10 +108,10 @@
                 }
             }
 
-            return new Tuple<bool?, DistributionCommon.Responses.Base>(success, new DistributionCommon.Responses.Assign(success));
+            return new Tuple<bool?, DistributionCommon.Comm.Responses.Base>(success, new DistributionCommon.Comm.Responses.Assign(success));
         }
 
-        private Tuple<bool?, DistributionCommon.Responses.Base> HandleRequest(DistributionCommon.Requests.Construct request)
+        private Tuple<bool?, DistributionCommon.Comm.Responses.Base> HandleRequest(DistributionCommon.Comm.Requests.Construct request)
         {
             bool success = false;
             if (!this.constructed)
@@ -121,10 +121,10 @@
                 success = true;
             }
 
-            return new Tuple<bool?, DistributionCommon.Responses.Base>(success, new DistributionCommon.Responses.Construct(success));
+            return new Tuple<bool?, DistributionCommon.Comm.Responses.Base>(success, new DistributionCommon.Comm.Responses.Construct(success));
         }
 
-        private Tuple<bool?, DistributionCommon.Responses.Base> HandleRequest(DistributionCommon.Requests.Remove request)
+        private Tuple<bool?, DistributionCommon.Comm.Responses.Base> HandleRequest(DistributionCommon.Comm.Requests.Remove request)
         {
             bool success = false;
             if (this.workers.ContainsKey(request.ID))
@@ -134,10 +134,10 @@
                 success = true;
             }
 
-            return new Tuple<bool?, DistributionCommon.Responses.Base>(success, new DistributionCommon.Responses.Remove(success));
+            return new Tuple<bool?, DistributionCommon.Comm.Responses.Base>(success, new DistributionCommon.Comm.Responses.Remove(success));
         }
 
-        private Tuple<bool?, DistributionCommon.Responses.Base> HandleRequest(DistributionCommon.Requests.Reset request)
+        private Tuple<bool?, DistributionCommon.Comm.Responses.Base> HandleRequest(DistributionCommon.Comm.Requests.Reset request)
         {
             bool success = false;
             if (this.constructed)
@@ -153,10 +153,10 @@
                 success = true;
             }
 
-            return new Tuple<bool?, DistributionCommon.Responses.Base>(success, new DistributionCommon.Responses.Reset(success));
+            return new Tuple<bool?, DistributionCommon.Comm.Responses.Base>(success, new DistributionCommon.Comm.Responses.Reset(success));
         }
 
-        private Tuple<bool?, DistributionCommon.Responses.Base> HandleRequest(DistributionCommon.Requests.Sleep request)
+        private Tuple<bool?, DistributionCommon.Comm.Responses.Base> HandleRequest(DistributionCommon.Comm.Requests.Sleep request)
         {
             bool success = false;
             if (this.workers.ContainsKey(request.ID))
@@ -168,15 +168,15 @@
                 }
             }
 
-            return new Tuple<bool?, DistributionCommon.Responses.Base>(success, new DistributionCommon.Responses.Sleep(success));
+            return new Tuple<bool?, DistributionCommon.Comm.Responses.Base>(success, new DistributionCommon.Comm.Responses.Sleep(success));
         }
 
-        private Tuple<bool?, DistributionCommon.Responses.Base> HandleRequest(DistributionCommon.Requests.Status request)
+        private Tuple<bool?, DistributionCommon.Comm.Responses.Base> HandleRequest(DistributionCommon.Comm.Requests.Status request)
         {
-            return new Tuple<bool?, DistributionCommon.Responses.Base>(null, new DistributionCommon.Responses.Status(this.constructed));
+            return new Tuple<bool?, DistributionCommon.Comm.Responses.Base>(null, new DistributionCommon.Comm.Responses.Status(this.constructed));
         }
 
-        private Tuple<bool?, DistributionCommon.Responses.Base> HandleRequest(DistributionCommon.Requests.Wake request)
+        private Tuple<bool?, DistributionCommon.Comm.Responses.Base> HandleRequest(DistributionCommon.Comm.Requests.Wake request)
         {
             bool success = false;
             if (this.workers.ContainsKey(request.ID))
@@ -188,7 +188,7 @@
                 }
             }
 
-            return new Tuple<bool?, DistributionCommon.Responses.Base>(success, new DistributionCommon.Responses.Wake(success));
+            return new Tuple<bool?, DistributionCommon.Comm.Responses.Base>(success, new DistributionCommon.Comm.Responses.Wake(success));
         }
     }
 }

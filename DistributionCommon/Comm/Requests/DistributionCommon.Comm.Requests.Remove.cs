@@ -1,4 +1,4 @@
-﻿namespace DistributionCommon.Requests
+﻿namespace DistributionCommon.Comm.Requests
 {
     public sealed class Remove : Base
     {

@@ -160,20 +160,13 @@
                     this.DistributionModification += this.BalanceAllJobs;
                 }
             }
+
             this.logger.Log("Startup completed.");
         }
 
         private delegate void DistributionModificationHandler();
 
         private event DistributionModificationHandler DistributionModification;
-
-        private void OnDistributionModification()
-        {
-            if (this.DistributionModification != null)
-            {
-                this.DistributionModification();
-            }
-        }
 
         private int TotalSlots
         {
@@ -188,6 +181,14 @@
             get
             {
                 return this.TotalSlots - this.jobs.Count(job => job.Value.NodeID != 0);
+            }
+        }
+
+        private void OnDistributionModification()
+        {
+            if (this.DistributionModification != null)
+            {
+                this.DistributionModification();
             }
         }
             
