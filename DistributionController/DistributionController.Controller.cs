@@ -245,7 +245,7 @@
         {
             if (jobIDs.Count <= this.TotalSlotsAvailable)
             {
-                var nodes = this.nodes.Where(node => node.Value.Reachable).ToDictionary(node => node.Key, node => (float)node.Value.AssignedJobs.Count / node.Value.Schematic.Slots);
+                var nodes = this.nodes.Where(node => node.Value.Reachable && node.Value.Schematic.AllowsAutoAssign).ToDictionary(node => node.Key, node => (float)node.Value.AssignedJobs.Count / node.Value.Schematic.Slots);
 
                 while (jobIDs.Count > 0)
                 {
@@ -295,7 +295,7 @@
         private void BalanceAllJobs()
         {
             this.logger.Log("Beginning load balance");
-            var nodes = this.nodes.Where(node => node.Value.Reachable).Select(node => node.Key);
+            var nodes = this.nodes.Where(node => node.Value.Reachable && node.Value.Schematic.Balanced).Select(node => node.Key);
 
             var jobs = new List<int>();
 
