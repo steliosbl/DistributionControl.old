@@ -57,6 +57,7 @@
     <Compile Include="DistributionCommon.DependencyManager.cs" />
     <Compile Include="DistributionCommon.DistributionControlException.cs" />
     <Compile Include="DistributionCommon.Logger.cs" />
+    <Compile Include="DistributionCommon.NodeInfo.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.AssignJob.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.AssignNode.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.Base.cs" />
@@ -69,6 +70,17 @@
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.WakeJob.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.WakeNode.cs" />
     <Compile Include="DistributionCommon.JSONFileReader.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.AssignJob.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.AssignNode.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.Base.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.RemoveJob.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.RemoveNode.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.SleepJob.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.SleepNode.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.Status.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.StatusChanged.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.WakeJob.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.WakeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Comm\Requests\DistributionCommon..Comm.Requests.Assign.cs" />
     <Compile Include="Comm\Requests\DistributionCommon.Comm.Requests.Base.cs" />
@@ -95,9 +107,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interface\Responses\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\DistributedJob\DistributedJob.csproj">
       <Project>{b31b9302-2493-40d8-be69-6edcb664b5d5}</Project>
