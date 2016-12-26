@@ -2,11 +2,11 @@
 {
     public sealed class AssignJob : Base
     {
-        public AssignJob(Job.Blueprint job) : base()
+        public AssignJob(DistributedJob.Blueprint job) : base()
         {
             this.Job = job;
         }
 
-        public Job.Blueprint Job { get; private set; }
+        public DistributedJob.Blueprint Job { get; private set; }
     }
 }

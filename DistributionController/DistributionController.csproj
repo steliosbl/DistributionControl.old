@@ -73,6 +73,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DistributedJob\DistributedJob.csproj">
+      <Project>{b31b9302-2493-40d8-be69-6edcb664b5d5}</Project>
+      <Name>DistributedJob</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DistributionCommon\DistributionCommon.csproj">
       <Project>{139e7c6a-fac3-4164-ab2b-0383c87a14a0}</Project>
       <Name>DistributionCommon</Name>

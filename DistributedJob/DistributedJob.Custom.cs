@@ -1,4 +1,4 @@
-﻿namespace DistributionCommon.Job
+﻿namespace DistributedJob
 {
     public class Custom : Base
     {

@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DistributionNode</RootNamespace>
-    <AssemblyName>is</AssemblyName>
+    <AssemblyName>DistributionNode</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -75,6 +75,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DistributedJob\DistributedJob.csproj">
+      <Project>{b31b9302-2493-40d8-be69-6edcb664b5d5}</Project>
+      <Name>DistributedJob</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DistributedWorker\DistributedWorker.csproj">
       <Project>{c5340639-d6e8-445a-b762-fce41e354ac7}</Project>
       <Name>DistributedWorker</Name>

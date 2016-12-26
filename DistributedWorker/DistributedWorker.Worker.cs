@@ -3,12 +3,12 @@
     public class Worker
     {
         public readonly int ID;
-        private DistributionCommon.Job.Base job;
+        private DistributedJob.Base job;
         private System.Threading.Thread workThread;
 
-        public Worker(DistributionCommon.Job.Blueprint blueprint)
+        public Worker(DistributedJob.Blueprint blueprint)
         {
-            this.job = new DistributionCommon.Job.Custom(blueprint);
+            this.job = new DistributedJob.Custom(blueprint);
         }
 
         public bool Awake

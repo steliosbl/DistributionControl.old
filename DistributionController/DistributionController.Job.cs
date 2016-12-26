@@ -1,12 +1,12 @@
 ﻿namespace DistributionController
 {
-    public sealed class Job : DistributionCommon.Job.Base
+    public sealed class Job : DistributedJob.Base
     {
         public readonly bool Redundant;
         public readonly bool Balanced;
 
         [Newtonsoft.Json.JsonConstructor]
-        public Job(DistributionCommon.Job.Blueprint blueprint, int nodeID, bool redundant, bool balanced, int state) : base(blueprint)
+        public Job(DistributedJob.Blueprint blueprint, int nodeID, bool redundant, bool balanced, int state) : base(blueprint)
         {
             this.NodeID = nodeID;
             this.Redundant = redundant;
