@@ -21,8 +21,8 @@
             {
                 public static string[] SubDirs =
                 {
+                    "AddNode",
                     "AssignJob",
-                    "AssignNode",
                     "RemoveJob",
                     "RemoveNode",
                     "SleepJob",

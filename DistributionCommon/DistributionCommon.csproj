@@ -61,7 +61,7 @@
     <Compile Include="DistributionCommon.Logger.cs" />
     <Compile Include="DistributionCommon.NodeInfo.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.AssignJob.cs" />
-    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.AssignNode.cs" />
+    <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.AddNode.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.Base.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.RemoveJob.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.RemoveNode.cs" />
@@ -73,7 +73,7 @@
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.WakeNode.cs" />
     <Compile Include="DistributionCommon.JSONFileReader.cs" />
     <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.AssignJob.cs" />
-    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.AssignNode.cs" />
+    <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.AddNode.cs" />
     <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.Base.cs" />
     <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.RemoveJob.cs" />
     <Compile Include="Interface\Responses\DistributionCommon.Interface.Responses.RemoveNode.cs" />

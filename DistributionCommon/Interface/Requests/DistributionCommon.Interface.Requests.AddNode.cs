@@ -1,8 +1,8 @@
 ﻿namespace DistributionCommon.Interface.Requests
 {
-    public sealed class AssignNode : Base
+    public sealed class AddNode : Base
     {
-        public AssignNode(Schematic.Node node, bool addToSchematic) : base()
+        public AddNode(Schematic.Node node, bool addToSchematic) : base()
         {
             this.Node = node;
             this.AddToSchematic = addToSchematic;
