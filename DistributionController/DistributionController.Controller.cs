@@ -99,23 +99,15 @@
                     {
                         try
                         {
-                            if (this.nodes[job.Value.NodeID].Assign(job.Value))
+                            if (!this.AssignJobManual(job.Value, job.Value.NodeID))
                             {
-                                this.logger.Log("Loaded job ID:" + job.Key);
-                                if (job.Value.State == 1)
-                                {
-                                    this.nodes[job.Value.NodeID].Wake(job.Value.Blueprint.ID);
-                                }
-                            }
-                            else
-                            {
-                                this.logger.Log("Failed to load job ID:" + job.Key, 1);
+                                this.logger.Log(String.Format("Failed to load job ID:{0}",job.Key), 1);
                                 unsuccessful.Add(job.Key);
                             }
                         }
                         catch (KeyNotFoundException)
                         {
-                            this.logger.Log("Failed to load job ID:" + job.Key, 1);
+                            this.logger.Log(String.Format("Failed to load job ID:{0}", job.Key), 1);
                             unsuccessful.Add(job.Key);
                         }
                     }
@@ -252,17 +244,9 @@
                     var min = nodes.Aggregate((l, r) => l.Value < r.Value ? l : r);
                     if (min.Value != 1)
                     {
-                        if (this.nodes[min.Key].Assign(this.jobs[jobIDs[0]]))
+                        if (this.AssignJobManual(jobIDs[0], min.Key))
                         {
-                            this.logger.Log("Assigned job ID:" + jobIDs[0].ToString() + " to node ID:" + min.Key.ToString());
-                            this.jobs[jobIDs[0]].Transfer(min.Key);
                             nodes[min.Key] = (float)this.nodes[min.Key].AssignedJobs.Count / this.nodes[min.Key].Schematic.Slots;
-                            if (this.jobs[jobIDs[0]].State == 1)
-                            {
-                                this.logger.Log("Awoke job ID:" + jobIDs[0].ToString());
-                                this.nodes[min.Key].Wake(jobIDs[0]);
-                            }
-
                             jobIDs.RemoveAt(0);
                         }
                     }
@@ -316,6 +300,29 @@
 
                 this.AssignJobsBalanced(jobs);
             }
+        }
+
+        private bool AssignJobManual(int jobID, int nodeID)
+        {
+            return this.AssignJobManual(this.jobs[jobID], nodeID);
+        }
+
+        private bool AssignJobManual(Job job, int nodeID)
+        {
+            if (this.nodes[nodeID].Assign(job))
+            {
+                this.logger.Log(String.Format("Assigned job ID:{0} to node ID:{1}", job.Blueprint.ID, nodeID));
+                job.Transfer(nodeID);
+                if (job.State == 1)
+                {
+                    this.logger.Log(String.Format("Awoke job ID:{0}", job.Blueprint.ID));
+                    this.nodes[nodeID].Wake(job.Blueprint.ID);
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
