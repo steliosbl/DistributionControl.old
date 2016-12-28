@@ -70,16 +70,7 @@
                 this.nodes = new Dictionary<int, Node>();
                 foreach (var node in this.schematic.Nodes)
                 {
-                    try
-                    {
-                        this.logger.Log("Initializing node ID:" + node.Value.ID);
-                        this.nodes.Add(node.Value.ID, new Node(node.Value, this.LostNodeHandler, this.RecoveredNodeHandler, this.TimeoutHandler, this.AssignedJobGetter, this.config.PingDelay));
-                        this.logger.Log("Node ID:" + node.Value.ID.ToString() + " initialized successfully");
-                    }
-                    catch (Node.InitializationException)
-                    {
-                        this.logger.Log("Failed to initialize node", 2);
-                    }
+                    this.AddNode(node.Value);
                 }
 
                 if (this.nodes.Count == 0)
@@ -323,6 +314,31 @@
             }
 
             return false;
+        }
+
+        private bool AddNode(DistributionCommon.Schematic.Node node)
+        {
+            bool success = false;
+            if (!this.nodes.ContainsKey(node.ID))
+            {
+                try
+                {
+                    this.logger.Log(String.Format("Initializing node ID:{0}", node.ID));
+                    this.nodes.Add(node.ID, new Node(node, this.LostNodeHandler, this.RecoveredNodeHandler, this.TimeoutHandler, this.AssignedJobGetter, this.config.PingDelay));
+                    this.logger.Log(String.Format("Node ID:{0} initialized successfully", node.ID));
+                    success = true;
+                }
+                catch (Node.InitializationException)
+                {
+                    this.logger.Log("Failed to initialize node", 2);
+                    if (this.nodes.ContainsKey(node.ID))
+                    {
+                        this.nodes.Remove(node.ID);
+                    }
+                }
+            }
+
+            return success;
         }
     }
 }
