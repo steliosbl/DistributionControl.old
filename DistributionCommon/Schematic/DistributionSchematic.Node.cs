@@ -1,6 +1,6 @@
 ﻿namespace DistributionCommon.Schematic
-{
-    public struct Node
+{ 
+    public sealed class Node
     {
         public readonly int ID;
         public readonly int Slots;
@@ -18,6 +18,14 @@
             this.Port = port;
             this.Balanced = balanced;
             this.AllowsAutoAssign = allowsAutoAssign;
+        }
+
+        public bool Validate()
+        {
+            bool result = true;
+            result = this.ID > 0;
+            result = this.Slots > 0;
+            return result;
         }
     }
 }

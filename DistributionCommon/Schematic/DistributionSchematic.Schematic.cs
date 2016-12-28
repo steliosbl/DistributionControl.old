@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class Schematic
+    public sealed class Schematic
     {
         public readonly Dictionary<int, Node> Nodes;
 
