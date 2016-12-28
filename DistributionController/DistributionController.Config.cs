@@ -13,6 +13,7 @@
         public readonly string LogFilename;
         public readonly string PreLoadFilename;
         public readonly string SchematicFilename;
+        public readonly API.Config APIConfig;
 
         [Newtonsoft.Json.JsonConstructor]
         public Config(
@@ -26,7 +27,8 @@
             int timeout, 
             string logFilename, 
             string preLoadFilename, 
-            string schematicFilename)
+            string schematicFilename,
+            API.Config apiConfig)
         {
             this.LiveErrors = liveErrors;
             this.LoadBalancing = loadBalancing;
@@ -39,6 +41,7 @@
             this.LogFilename = logFilename;
             this.PreLoadFilename = preLoadFilename;
             this.SchematicFilename = schematicFilename;
+            this.APIConfig = apiConfig;
         }
     }
 }

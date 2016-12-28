@@ -16,6 +16,23 @@
             {
                 public const string ConfigFilename = "DistributionController.cfg";
             }
+
+            public sealed class API
+            {
+                public static string[] SubDirs =
+                {
+                    "AssignJob",
+                    "AssignNode",
+                    "RemoveJob",
+                    "RemoveNode",
+                    "SleepJob",
+                    "SleepNode",
+                    "Status",
+                    "StatusChanged",
+                    "WakeJob",
+                    "WakeNode"
+                };
+            }
         }
 
         public sealed class Communication

@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\DistributionController.API.API.cs" />
+    <Compile Include="API\DistributionController.API.Config.cs" />
+    <Compile Include="API\DistributionController.API.NetListener.cs" />
     <Compile Include="DistributionController.Config.cs" />
     <Compile Include="DistributionController.Controller.cs" />
     <Compile Include="DistributionController.Execute.cs" />
