@@ -253,7 +253,7 @@
 
         private bool TransferRedundantJobs(Node lostNode)
         {
-            this.logger.Log("Beginning transfer of redundant jobs from node ID:" + lostNode.Schematic.ID.ToString());
+            this.logger.Log("Beginning job transfer from node ID:" + lostNode.Schematic.ID.ToString());
 
             var redundantJobs = this.jobs.Where(job => job.Value.NodeID == lostNode.Schematic.ID && job.Value.Redundant).Select(job => job.Key).ToList();
 
@@ -295,22 +295,30 @@
 
         private bool AssignJobManual(int jobID, int nodeID)
         {
-            return this.AssignJobManual(this.jobs[jobID], nodeID);
+            if (this.jobs.ContainsKey(jobID))
+            {
+                return this.AssignJobManual(this.jobs[jobID], nodeID);
+            }
+
+            return false;
         }
 
         private bool AssignJobManual(Job job, int nodeID)
         {
-            if (this.nodes[nodeID].Assign(job))
+            if (this.nodes.ContainsKey(nodeID))
             {
-                this.logger.Log(String.Format("Assigned job ID:{0} to node ID:{1}", job.Blueprint.ID, nodeID));
-                job.Transfer(nodeID);
-                if (job.State == 1)
+                if (this.nodes[nodeID].Assign(job))
                 {
-                    this.logger.Log(String.Format("Awoke job ID:{0}", job.Blueprint.ID));
-                    this.nodes[nodeID].Wake(job.Blueprint.ID);
-                }
+                    this.logger.Log(String.Format("Assigned job ID:{0} to node ID:{1}", job.Blueprint.ID, nodeID));
+                    job.Transfer(nodeID);
+                    if (job.State == 1)
+                    {
+                        this.logger.Log(String.Format("Awoke job ID:{0}", job.Blueprint.ID));
+                        this.nodes[nodeID].Wake(job.Blueprint.ID);
+                    }
 
-                return true;
+                    return true;
+                }
             }
 
             return false;
@@ -339,6 +347,52 @@
             }
 
             return success;
+        }
+
+        private bool RemoveJob(int jobID, bool delete)
+        {
+            if (this.jobs.ContainsKey(jobID))
+            {
+                if (this.jobs[jobID].NodeID != 0 && this.nodes[this.jobs[jobID].NodeID].Remove(jobID) || this.jobs[jobID].NodeID == 0)
+                {
+                    if (delete)
+                    {
+                        this.jobs.Remove(jobID);
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool RemoveNode(int nodeID, bool saveJobs, bool sleepSaved)
+        {
+            if (this.nodes.ContainsKey(nodeID))
+            {
+
+                if (this.nodes[nodeID].Reset())
+                {
+                    var nodeJobs = this.jobs.Where(job => job.Value.NodeID == nodeID).Select(job => job.Key);
+                    foreach (int jobID in nodeJobs)
+                    {
+                        if ((saveJobs && sleepSaved) || !saveJobs)
+                        {
+                            this.jobs[jobID].UpdateState(0);
+                        }
+
+                        this.jobs[jobID].Transfer(0);
+                    }
+
+                    if (saveJobs)
+                    {
+                        this.AssignJobsBalanced(nodeJobs.ToList());
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
