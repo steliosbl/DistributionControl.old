@@ -378,7 +378,7 @@
                     {
                         if ((reassignJobs && sleepSaved) || !reassignJobs)
                         {
-                            this.jobs[jobID].UpdateState(0);
+                            this.jobs[jobID].UpdateState(DistributionCommon.Constants.DistributionController.Job.State.Asleep);
                         }
 
                         this.jobs[jobID].Transfer(0);
@@ -391,6 +391,20 @@
                 }
             }
 
+            return false;
+        }
+
+        private bool SleepJob(int jobID)
+        {
+            if (this.jobs.ContainsKey(jobID))
+            {
+                int nodeID = this.jobs[jobID].NodeID;
+                if (this.jobs[jobID].State == DistributionCommon.Constants.DistributionController.Job.State.Awake && nodeID != 0 && this.nodes[nodeID].Sleep(jobID))
+                {
+                    this.jobs[jobID].UpdateState(DistributionCommon.Constants.DistributionController.Job.State.Asleep);
+                    return true;
+                }
+            }
             return false;
         }
     }

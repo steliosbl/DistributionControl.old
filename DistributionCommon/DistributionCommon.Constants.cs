@@ -33,6 +33,15 @@
                     "WakeNode"
                 };
             }
+
+            public sealed class Job
+            {
+                public sealed class State
+                {
+                    public const int Awake = 1;
+                    public const int Asleep = 0;
+                }
+            }
         }
 
         public sealed class Communication
