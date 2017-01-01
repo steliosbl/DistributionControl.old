@@ -472,5 +472,17 @@
             return false;
         }
 
+        private bool WakeNode(int nodeID)
+        {
+            if (this.nodes.ContainsKey(nodeID) && !this.nodes[nodeID].Awake)
+            {
+                this.nodes[nodeID].Wake();
+                this.OnDistributionModification();
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }
