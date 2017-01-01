@@ -228,7 +228,7 @@
         {
             if (jobIDs.Count <= this.TotalSlotsAvailable)
             {
-                var nodes = this.nodes.Where(node => node.Value.Reachable && node.Value.Schematic.AllowsAutoAssign).ToDictionary(node => node.Key, node => (float)node.Value.AssignedJobs.Count / node.Value.Schematic.Slots);
+                var nodes = this.nodes.Where(node => node.Value.Reachable && node.Value.Schematic.AllowsAutoAssign && node.Value.Awake).ToDictionary(node => node.Key, node => (float)node.Value.AssignedJobs.Count / node.Value.Schematic.Slots);
 
                 while (jobIDs.Count > 0)
                 {
@@ -270,7 +270,7 @@
         private void BalanceAllJobs()
         {
             this.logger.Log("Beginning load balance");
-            var nodes = this.nodes.Where(node => node.Value.Reachable && node.Value.Schematic.Balanced).Select(node => node.Key);
+            var nodes = this.nodes.Where(node => node.Value.Reachable && node.Value.Schematic.Balanced && node.Value.Awake).Select(node => node.Key);
 
             var jobs = new List<int>();
 
@@ -305,16 +305,16 @@
 
         private bool AssignJobManual(Job job, int nodeID)
         {
-            if (this.nodes.ContainsKey(nodeID))
+            if (this.nodes.ContainsKey(nodeID) && this.nodes[nodeID].Awake)
             {
                 if (this.nodes[nodeID].Assign(job))
                 {
                     this.logger.Log(string.Format("Assigned job ID:{0} to node ID:{1}", job.Blueprint.ID, nodeID));
                     job.Transfer(nodeID);
-                    if (job.State == 1)
+                    if (job.Awake)
                     {
                         this.logger.Log(string.Format("Awoke job ID:{0}", job.Blueprint.ID));
-                        this.nodes[nodeID].Wake(job.Blueprint.ID);
+                        this.nodes[nodeID].WakeJob(job.Blueprint.ID);
                     }
 
                     return true;
@@ -367,7 +367,7 @@
             return false;
         }
 
-        private bool RemoveNode(int nodeID, bool reassignJobs, bool sleepSaved)
+        private bool RemoveNode(int nodeID, bool reassignJobs)
         {
             if (this.nodes.ContainsKey(nodeID))
             {
@@ -376,9 +376,9 @@
                     var nodeJobs = this.jobs.Where(job => job.Value.NodeID == nodeID).Select(job => job.Key);
                     foreach (int jobID in nodeJobs)
                     {
-                        if ((reassignJobs && sleepSaved) || !reassignJobs)
+                        if (!reassignJobs)
                         {
-                            this.jobs[jobID].UpdateState(DistributionCommon.Constants.DistributionController.Job.State.Asleep);
+                            this.jobs[jobID].Sleep();
                         }
 
                         this.jobs[jobID].Transfer(0);
@@ -399,29 +399,44 @@
             if (this.jobs.ContainsKey(jobID))
             {
                 int nodeID = this.jobs[jobID].NodeID;
-                if (this.jobs[jobID].State == DistributionCommon.Constants.DistributionController.Job.State.Awake && nodeID != 0 && this.nodes[nodeID].Sleep(jobID))
+                if (this.jobs[jobID].Awake && nodeID != 0 && this.nodes[nodeID].SleepJob(jobID))
                 {
-                    this.jobs[jobID].UpdateState(DistributionCommon.Constants.DistributionController.Job.State.Asleep);
+                    this.jobs[jobID].Sleep();
                     return true;
                 }
             }
+
             return false;
         }
 
-        private bool SleepNode(int nodeID)
+        private bool SleepNode(int nodeID, bool reassignJobs)
         {
             bool result = false;
-            if (this.nodes.ContainsKey(nodeID))
+            if (this.nodes.ContainsKey(nodeID) && this.nodes[nodeID].Awake)
             {
-                foreach (int jobID in this.jobs.Where(job => job.Value.NodeID == nodeID).Select(job => job.Key))
+                var nodeJobs = this.jobs.Where(job => job.Value.NodeID == nodeID).Select(job => job.Key);
+                foreach (int jobID in nodeJobs)
                 {
-                    result = this.SleepJob(jobID);
+                    if (!reassignJobs)
+                    {
+                        this.jobs[jobID].Sleep();
+                    }
+
+                    this.jobs[jobID].Transfer(0);
+                }
+
+                if (reassignJobs)
+                {
+                    this.AssignJobsBalanced(nodeJobs.ToList());
                 }
             }
 
             return result;
         }
 
-        private
+        ////private DistributionCommon.Interface.Status BuildStatus()
+        ////{
+        ////    return new DistributionCommon.Interface.Status(this.nodes.Select(node => new DistributionCommon.Interface.NodeInfo(node.Value.Schematic, node.Value.Reachable, node.Value.Awake, node.Value.AssignedJobs.Count, node.Value.AssignedJobs.Count(job => job.Awake))
+        ////    }
     }
 }

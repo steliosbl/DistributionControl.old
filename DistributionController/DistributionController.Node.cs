@@ -14,14 +14,17 @@
         private Thread watchdog;
         private System.Timers.Timer timeoutTimer;
         private AssignedJobGetter assignedJobs;
+        private int pingDelay;
 
         public Node(DistributionCommon.Schematic.Node schematic, LostNodeHandler lostHandler, RecoveredNodeHandler recoveredHandler, TimeoutHandler timeoutHandler, AssignedJobGetter jobGetter, int pingDelay)
         {
             this.Schematic = schematic;
             this.Reachable = false;
             this.client = new NetClient(this.Schematic.Address, this.Schematic.Port, this.RequestFailedHandler);
+            this.Awake = true;
+            this.pingDelay = pingDelay;
 
-            this.watchdog = new Thread(() => this.PingLoop(pingDelay));
+            this.watchdog = new Thread(() => this.PingLoop());
             this.watchdog.Start();
 
             Thread.Sleep(pingDelay);
@@ -61,6 +64,8 @@
         public event TimeoutHandler Timeout;
 
         public bool Reachable { get; private set; }
+
+        public bool Awake { get; private set; }
         
         public List<Job> AssignedJobs
         {
@@ -118,7 +123,7 @@
             return false;
         }
 
-        public bool Sleep(int id)
+        public bool SleepJob(int id)
         {
             var request = new DistributionCommon.Comm.Requests.Sleep(id);
             var response = this.SendRequest<DistributionCommon.Comm.Responses.Sleep>(request);
@@ -142,7 +147,7 @@
             return false;
         }
 
-        public bool Wake(int id)
+        public bool WakeJob(int id)
         {
             var request = new DistributionCommon.Comm.Requests.Wake(id);
             var response = this.SendRequest<DistributionCommon.Comm.Responses.Wake>(request);
@@ -152,6 +157,22 @@
             }
 
             return false;
+        }
+
+        public bool Sleep()
+        {
+            this.InterruptCountdown();
+            this.watchdog.Abort();
+            this.Awake = false;
+            return this.Reset();
+        }
+
+        public bool Wake()
+        {
+            this.watchdog = new Thread(() => this.PingLoop());
+            this.watchdog.Start();
+            this.Awake = true;
+            return this.Construct();
         }
 
         public void BeginCountdown(int duration)
@@ -230,7 +251,7 @@
             }
         }
 
-        private void PingLoop(int delay)
+        private void PingLoop()
         {
             while (true)
             {
@@ -264,7 +285,7 @@
                     }
                 }
 
-                Thread.Sleep(delay);
+                Thread.Sleep(this.pingDelay);
             }
         }
 
