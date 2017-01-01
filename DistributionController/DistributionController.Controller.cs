@@ -367,7 +367,7 @@
             return false;
         }
 
-        private bool RemoveNode(int nodeID, bool saveJobs, bool sleepSaved)
+        private bool RemoveNode(int nodeID, bool reassignJobs, bool sleepSaved)
         {
             if (this.nodes.ContainsKey(nodeID))
             {
@@ -376,7 +376,7 @@
                     var nodeJobs = this.jobs.Where(job => job.Value.NodeID == nodeID).Select(job => job.Key);
                     foreach (int jobID in nodeJobs)
                     {
-                        if ((saveJobs && sleepSaved) || !saveJobs)
+                        if ((reassignJobs && sleepSaved) || !reassignJobs)
                         {
                             this.jobs[jobID].UpdateState(0);
                         }
@@ -384,7 +384,7 @@
                         this.jobs[jobID].Transfer(0);
                     }
 
-                    if (saveJobs)
+                    if (reassignJobs)
                     {
                         this.AssignJobsBalanced(nodeJobs.ToList());
                     }
