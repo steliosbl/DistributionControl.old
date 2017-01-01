@@ -92,13 +92,13 @@
                         {
                             if (!this.AssignJobManual(job.Value, job.Value.NodeID))
                             {
-                                this.logger.Log(String.Format("Failed to load job ID:{0}",job.Key), 1);
+                                this.logger.Log(string.Format("Failed to load job ID:{0}", job.Key), 1);
                                 unsuccessful.Add(job.Key);
                             }
                         }
                         catch (KeyNotFoundException)
                         {
-                            this.logger.Log(String.Format("Failed to load job ID:{0}", job.Key), 1);
+                            this.logger.Log(string.Format("Failed to load job ID:{0}", job.Key), 1);
                             unsuccessful.Add(job.Key);
                         }
                     }
@@ -309,11 +309,11 @@
             {
                 if (this.nodes[nodeID].Assign(job))
                 {
-                    this.logger.Log(String.Format("Assigned job ID:{0} to node ID:{1}", job.Blueprint.ID, nodeID));
+                    this.logger.Log(string.Format("Assigned job ID:{0} to node ID:{1}", job.Blueprint.ID, nodeID));
                     job.Transfer(nodeID);
                     if (job.State == 1)
                     {
-                        this.logger.Log(String.Format("Awoke job ID:{0}", job.Blueprint.ID));
+                        this.logger.Log(string.Format("Awoke job ID:{0}", job.Blueprint.ID));
                         this.nodes[nodeID].Wake(job.Blueprint.ID);
                     }
 
@@ -331,9 +331,9 @@
             {
                 try
                 {
-                    this.logger.Log(String.Format("Initializing node ID:{0}", node.ID));
+                    this.logger.Log(string.Format("Initializing node ID:{0}", node.ID));
                     this.nodes.Add(node.ID, new Node(node, this.LostNodeHandler, this.RecoveredNodeHandler, this.TimeoutHandler, this.AssignedJobGetter, this.config.PingDelay));
-                    this.logger.Log(String.Format("Node ID:{0} initialized successfully", node.ID));
+                    this.logger.Log(string.Format("Node ID:{0} initialized successfully", node.ID));
                     success = true;
                 }
                 catch (Node.InitializationException)
@@ -353,7 +353,7 @@
         {
             if (this.jobs.ContainsKey(jobID))
             {
-                if (this.jobs[jobID].NodeID != 0 && this.nodes[this.jobs[jobID].NodeID].Remove(jobID) || this.jobs[jobID].NodeID == 0)
+                if ((this.jobs[jobID].NodeID != 0 && this.nodes[this.jobs[jobID].NodeID].Remove(jobID)) || this.jobs[jobID].NodeID == 0)
                 {
                     if (delete)
                     {
@@ -371,7 +371,6 @@
         {
             if (this.nodes.ContainsKey(nodeID))
             {
-
                 if (this.nodes[nodeID].Reset())
                 {
                     var nodeJobs = this.jobs.Where(job => job.Value.NodeID == nodeID).Select(job => job.Key);
