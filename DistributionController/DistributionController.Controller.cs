@@ -407,5 +407,21 @@
             }
             return false;
         }
+
+        private bool SleepNode(int nodeID)
+        {
+            bool result = false;
+            if (this.nodes.ContainsKey(nodeID))
+            {
+                foreach (int jobID in this.jobs.Where(job => job.Value.NodeID == nodeID).Select(job => job.Key))
+                {
+                    result = this.SleepJob(jobID);
+                }
+            }
+
+            return result;
+        }
+
+
     }
 }
