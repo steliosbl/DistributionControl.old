@@ -11,6 +11,7 @@
         private Dictionary<int, Node> nodes;
         private DistributionCommon.Logger logger;
         private DistributionCommon.Schematic.Schematic schematic;
+        private bool statusChanged;
 
         public Controller(string configFilename = DistributionCommon.Constants.DistributionController.Controller.ConfigFilename)
         {
@@ -144,6 +145,8 @@
                 }
             }
 
+            this.DistributionModification += this.ModificationHandler;
+            this.statusChanged = false;
             this.logger.Log("Startup completed.");
         }
 
@@ -173,6 +176,11 @@
             {
                 this.DistributionModification();
             }
+        }
+
+        private void ModificationHandler()
+        {
+            this.statusChanged = true;
         }
             
         private void LostNodeHandler(Node sender, EventArgs e)
@@ -317,6 +325,7 @@
                         this.nodes[nodeID].WakeJob(job.Blueprint.ID);
                     }
 
+                    this.OnDistributionModification();
                     return true;
                 }
             }
@@ -335,6 +344,7 @@
                     this.nodes.Add(node.ID, new Node(node, this.LostNodeHandler, this.RecoveredNodeHandler, this.TimeoutHandler, this.AssignedJobGetter, this.config.PingDelay));
                     this.logger.Log(string.Format("Node ID:{0} initialized successfully", node.ID));
                     success = true;
+                    this.OnDistributionModification();
                 }
                 catch (Node.InitializationException)
                 {
@@ -360,6 +370,7 @@
                         this.jobs.Remove(jobID);
                     }
 
+                    this.OnDistributionModification();
                     return true;
                 }
             }
@@ -388,6 +399,9 @@
                     {
                         this.AssignJobsBalanced(nodeJobs.ToList());
                     }
+
+                    this.OnDistributionModification();
+                    return true;
                 }
             }
 
@@ -402,6 +416,7 @@
                 if (this.jobs[jobID].Awake && nodeID != 0 && this.nodes[nodeID].SleepJob(jobID))
                 {
                     this.jobs[jobID].Sleep();
+                    this.OnDistributionModification();
                     return true;
                 }
             }
@@ -411,7 +426,6 @@
 
         private bool SleepNode(int nodeID, bool reassignJobs)
         {
-            bool result = false;
             if (this.nodes.ContainsKey(nodeID) && this.nodes[nodeID].Awake)
             {
                 var nodeJobs = this.jobs.Where(job => job.Value.NodeID == nodeID).Select(job => job.Key);
@@ -429,14 +443,34 @@
                 {
                     this.AssignJobsBalanced(nodeJobs.ToList());
                 }
+
+                this.OnDistributionModification();
+                return true;
             }
 
-            return result;
+            return false;
         }
 
-        ////private DistributionCommon.Interface.Status BuildStatus()
-        ////{
-        ////    return new DistributionCommon.Interface.Status(this.nodes.Select(node => new DistributionCommon.Interface.NodeInfo(node.Value.Schematic, node.Value.Reachable, node.Value.Awake, node.Value.AssignedJobs.Count, node.Value.AssignedJobs.Count(job => job.Awake))
-        ////    }
+        private DistributionCommon.Interface.Status GetStatus()
+        {
+            return new DistributionCommon.Interface.Status(this.nodes.ToDictionary(node => node.Key, node => new DistributionCommon.Interface.NodeInfo(node.Value.Schematic, node.Value.Reachable, node.Value.Awake, node.Value.AssignedJobs.Count, node.Value.AssignedJobs.Count(job => job.Awake))), this.jobs.ToDictionary(job => job.Key, job => job.Value.Blueprint));
+        }
+
+        private bool WakeJob(int jobID)
+        {
+            if (this.jobs.ContainsKey(jobID))
+            {
+                int nodeID = this.jobs[jobID].NodeID;
+                if (!this.jobs[jobID].Awake && nodeID != 0 && this.nodes[nodeID].wakeJob(jobID))
+                {
+                    this.jobs[jobID].Wake();
+                    this.OnDistributionModification();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
     }
 }
