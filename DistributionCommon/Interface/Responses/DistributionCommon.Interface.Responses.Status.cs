@@ -5,14 +5,11 @@
 
     public sealed class Status : Base
     {
-        public Status(Dictionary<int, NodeInfo> nodes, Dictionary<int, DistributedJob.Blueprint> jobs) : base()
+        public Status (Interface.Status currentStatus) : base()
         {
-            this.Nodes = nodes;
-            this.Jobs = jobs;
+            this.CurrentStatus = currentStatus;
         }
 
-        public Dictionary<int, NodeInfo> Nodes { get; private set; }
-
-        public Dictionary<int, DistributedJob.Blueprint> Jobs { get; private set; }
+        public Interface.Status CurrentStatus { get; private set; }
     }
 }

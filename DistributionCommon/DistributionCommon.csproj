@@ -59,7 +59,8 @@
     <Compile Include="DistributionCommon.DependencyManager.cs" />
     <Compile Include="DistributionCommon.DistributionControlException.cs" />
     <Compile Include="DistributionCommon.Logger.cs" />
-    <Compile Include="DistributionCommon.NodeInfo.cs" />
+    <Compile Include="Interface\DistributionCommon.Interface.NodeInfo.cs" />
+    <Compile Include="Interface\DistributionCommon.Interface.Status.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.AssignJob.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.AddNode.cs" />
     <Compile Include="Interface\Requests\DistributionCommon.Interface.Requests.Base.cs" />

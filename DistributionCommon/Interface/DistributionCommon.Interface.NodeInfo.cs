@@ -1,4 +1,4 @@
-﻿namespace DistributionCommon
+﻿namespace DistributionCommon.Interface
 {
     public sealed class NodeInfo
     {
