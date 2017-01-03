@@ -2,7 +2,7 @@
 {
     using System;
 
-    public abstract class Base
+    public class Base
     {
         public Base()
         {

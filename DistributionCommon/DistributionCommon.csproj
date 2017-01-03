@@ -106,6 +106,7 @@
     <Compile Include="Serialization\DistributionCommon.Serialization.CustomSettings.cs" />
     <Compile Include="Serialization\DistributionCommon.Serialization.IPAddressConverter.cs" />
     <Compile Include="Serialization\DistributionCommon.Serialization.IPEndPointConverter.cs" />
+    <Compile Include="Serialization\DistributionCommon.Serialization.TypeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
